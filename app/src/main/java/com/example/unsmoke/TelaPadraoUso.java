@@ -42,10 +42,6 @@ public class TelaPadraoUso extends AppCompatActivity {
         String precoMacoCigarro = precoMaco.getText().toString();
         String tempoFumarCigarro = tempoCigarro.getText().toString();
 
-        String cigar = cigarroPorDia + " cigarros por dia";
-        String preco = "R$ " + precoMacoCigarro;
-        String tempo = tempoFumarCigarro + " minutos";
-
         if (cigarroDia.getText().length() == 0){
             cigarroDia.setError("Insira um valor válido");
         }else if(precoMaco.getText().length() == 0){
@@ -58,9 +54,9 @@ public class TelaPadraoUso extends AppCompatActivity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 Map<String, Object> usuarios = new HashMap<>();
-                usuarios.put("Cigarros por dia", cigar);
-                usuarios.put("Preço pago por maço de cigarro", preco);
-                usuarios.put("Tempo levado para fumar 1 cigarro", tempo);
+                usuarios.put("Cigarros por dia", cigarroPorDia);
+                usuarios.put("Preço pago por maço de cigarro", precoMacoCigarro);
+                usuarios.put("Minutos levados para fumar 1 cigarro", tempoFumarCigarro);
 
                 usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

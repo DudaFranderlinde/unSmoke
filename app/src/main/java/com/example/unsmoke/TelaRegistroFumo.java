@@ -1,5 +1,6 @@
 package com.example.unsmoke;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,7 +14,10 @@ import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,21 +61,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         });
     }
 
-    public void mandarRegistroBD(){
-
-        /*if(duracaoFumo.getText().length() < 2){
-                duracaoFumo.setError("Você precisa inserir o seu nome para se cadastrar!");
-            }
-            else if (emailCadastro.getText().length() < 5){
-                emailCadastro.setError("Você precisa inserir um email válido!");
-            }
-            else if (senhaCadastro.getText().length() < 8){
-                senhaCadastro.setError("A sua deve ter pelo menos 8 caracteres!");
-            }
-            else{
-                CadastrarUsuario(v);
-            }
-        }*/
+    public void mandarRegistroBD(View m){
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -88,10 +78,39 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         DocumentReference dr = db.collection("Dados").document(usuarioID).collection("Registro de fumo").document(data);
         dr.set(registroFumo);
+
+        mandarBDCigarrosFumadosInicial();
+
+        retornaInicioEaddFumo();
     }
 
-    public void retornaInicioEaddFumo (View v){
-        registraCigarro += registraCigarro + 1;
+    public void mandarBDCigarrosFumadosInicial(){
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        int registroCigarroInicial = 0;
+
+        Map<String, Object> totalCigarrosFumados = new HashMap<>();
+        totalCigarrosFumados.put("Total de cigarros fumados", registroCigarroInicial);
+    }
+
+    public void retornaInicioEaddFumo (){
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot != null){
+                     String totalCigarFumAtual = documentSnapshot.getString("Total de cigarros fumados");
+                }
+            }
+        });
+
+
+
+        registraCigarro = registraCigarro + 1;
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
 

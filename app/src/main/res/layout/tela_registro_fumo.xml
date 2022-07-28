@@ -129,7 +129,7 @@
         android:layout_marginEnd="45dp"
         android:backgroundTint="#44270D"
         android:fontFamily="@font/arbutus_slab"
-        android:onClick="retornaInicioEaddFumo"
+        android:onClick="mandarRegistroBD"
         android:text="Cadastrar"
         android:textAllCaps="false"
         android:textSize="18sp"
@@ -148,29 +148,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:srcCompat="@drawable/cigarrete" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="255dp"
-        tools:layout_editor_absoluteY="429dp" />
-
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="255dp"
-        tools:layout_editor_absoluteY="519dp" />
-
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="256dp"
-        tools:layout_editor_absoluteY="601dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
