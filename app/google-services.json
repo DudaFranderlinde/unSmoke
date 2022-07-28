@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "957999605191",
+    "project_id": "unsmoke-2d567",
+    "storage_bucket": "unsmoke-2d567.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957999605191:android:fa77b17af602b41d2765e2",
+        "android_client_info": {
+          "package_name": "com.example.unsmoke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "957999605191-88n53tcdmqigsenu5pj3od2hidgn9h8v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-CanzTZGsNe2fffHOpihHiFnRq0FsdcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "957999605191-88n53tcdmqigsenu5pj3od2hidgn9h8v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
