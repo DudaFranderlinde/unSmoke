@@ -12,4 +12,9 @@
         <item name="android:gradientRadius">20dp</item>
     </style>
 
+    <style name="SpinnerPeronalizado" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">@font/arbutus_slab</item>
+    </style>
+
 </resources>

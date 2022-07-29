@@ -51,7 +51,6 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         spTiposFumo = (Spinner) findViewById(R.id.spTipoFumo);
         duracaoFumo = findViewById(R.id.duracaoFumo);
-        dataFumo = findViewById(R.id.dataFumo);
 
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, lsTiposFumo);
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -173,5 +172,10 @@ public class TelaRegistroFumo extends AppCompatActivity {
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
 
+    }
+
+    public void voltarParaTelaInicial(View w){
+        Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
+        startActivity(voltarParaTelaInicial);
     }
 }

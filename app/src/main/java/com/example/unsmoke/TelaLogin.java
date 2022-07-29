@@ -33,7 +33,7 @@ public class TelaLogin extends AppCompatActivity {
         emailLogin = findViewById(R.id.emailLogin);
         senhaLogin = findViewById(R.id.senhaLogin);
 
-        Intent irDireto = new Intent(this, TelaInicial.class);
+        Intent irDireto = new Intent(this, TelaRegistroFumo.class);
         startActivity(irDireto);
     }
 
