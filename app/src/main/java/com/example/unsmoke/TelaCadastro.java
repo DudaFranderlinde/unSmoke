@@ -3,6 +3,7 @@ package com.example.unsmoke;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class TelaCadastro extends AppCompatActivity {
     Button criarConta;
     String usuarioID;
 
+    @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     Date data = new Date();
 
