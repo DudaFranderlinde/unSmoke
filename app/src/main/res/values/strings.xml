@@ -12,4 +12,10 @@
     <string name="digiteSeuEmail">Digite seu e-mail</string>
     <string name="digiteSuaSenha">Digite sua senha</string>
     <string name="cadastrar">Cadastrar</string>
+    <string name="padroesDeUso">Padrões de uso</string>
+    <string name="preencha_todas_as_perguntas_para_prosseguir">Preencha todas as perguntas para \n prosseguir</string>
+    <string name="quantos_cigarros_voce_fuma_em_m_dia_por_dia">Quantos cigarros você \n fuma em média por dia ?</string>
+    <string name="quanto_custa_seu_ma_o_de_cigarro">Quanto custa seu maço de\ncigarro?</string>
+    <string name="quantos_minutos_gasta_n_para_fumar_um_cigarro">Quantos minutos gasta \n para fumar um cigarro?</string>
+    <string name="finalizar">Finalizar</string>
 </resources>
