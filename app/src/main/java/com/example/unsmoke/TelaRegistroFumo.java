@@ -1,17 +1,23 @@
 package com.example.unsmoke;
 
+import static java.lang.Integer.parseInt;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -19,6 +25,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,54 +71,101 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
     public void mandarRegistroBD(View m){
 
+        LocalDateTime dataHora = LocalDateTime.now();
+
+        DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        String dataFormatada = formatterData.format(dataHora);
+
+        DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String horaFormatada = formatterHora.format(dataHora);
+
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         String tipo = spTiposFumo.getSelectedItem().toString();
         String duracao = duracaoFumo.getText().toString();
-        String data = dataFumo.getText().toString();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Map<String, Object> registroFumo = new HashMap<>();
         registroFumo.put("Tipo de fumo", tipo);
         registroFumo.put("Duração", duracao);
-        registroFumo.put("Data", data);
 
-        DocumentReference dr = db.collection("Dados").document(usuarioID).collection("Registro de fumo").document(data);
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo").collection(dataFormatada).document(horaFormatada);
         dr.set(registroFumo);
 
         mandarBDCigarrosFumadosInicial();
 
-        retornaInicioEaddFumo();
     }
 
     public void mandarBDCigarrosFumadosInicial(){
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
-        int registroCigarroInicial = 0;
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
 
-        Map<String, Object> totalCigarrosFumados = new HashMap<>();
-        totalCigarrosFumados.put("Total de cigarros fumados", registroCigarroInicial);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        retornaInicioEaddFumo();
+
+                    } else {
+
+                        int registroCigarroInicial = 1;
+
+                        Map<String, Object> totalCigarrosFumados = new HashMap<>();
+                        totalCigarrosFumados.put("Total de cigarros fumados", registroCigarroInicial);
+
+                        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+                        documentReference.set(totalCigarrosFumados);
+
+                    }
+
+                }
+
+            }
+
+        });
     }
 
     public void retornaInicioEaddFumo (){
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
 
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                if (documentSnapshot != null){
-                     String totalCigarFumAtual = documentSnapshot.getString("Total de cigarros fumados");
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        int totalCigarFumAtual = Math.toIntExact((Long) documentSnapshot.getData().get("Total de cigarros fumados"));
+                        int registraCigarro = ++totalCigarFumAtual;
+
+                        Map<String, Object> totalCigarrosFumados = new HashMap<>();
+                        totalCigarrosFumados.put("Total de cigarros fumados", registraCigarro);
+
+                        documentReference.set(totalCigarrosFumados);
+
+                    }
+
                 }
+
             }
+
         });
 
-
-
-        registraCigarro = registraCigarro + 1;
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
 
