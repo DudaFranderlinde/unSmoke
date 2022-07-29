@@ -18,4 +18,13 @@
     <string name="quanto_custa_seu_ma_o_de_cigarro">Quanto custa seu maço de\ncigarro?</string>
     <string name="quantos_minutos_gasta_n_para_fumar_um_cigarro">Quantos minutos gasta \n para fumar um cigarro?</string>
     <string name="finalizar">Finalizar</string>
+    <string name="ver_progresso">Ver progresso</string>
+    <string name="contagem_de_fumo">Contagem de fumo</string>
+    <string name="clique_aqui_ao_fumar">Clique aqui ao fumar:</string>
+    <string name="n_o_fumar_durante_1_dia">Não fumar durante 1 dia.</string>
+    <string name="metas">Metas</string>
+    <string name="botao_fumar">Aperte neste botão para registrar o seu fumo</string>
+    <string name="quantidade_total">Quantidade total</string>
+    <string name="quantidade_mensal">Quantidade mensal</string>
+    <string name="quantidade_diaria">Quantidade diária</string>
 </resources>
