@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">unSmoke</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="esqueciASenha">Esqueci a senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastre_Se">Cadastre-se</string>
+    <string name="logoDoAplicativoUnsmoke">Logo do aplicativo unSmoke</string>
 </resources>
