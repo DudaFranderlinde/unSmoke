@@ -26,7 +26,7 @@
         android:layout_marginTop="380dp"
         android:layout_marginEnd="170dp"
         android:fontFamily="@font/arbutus_slab"
-        android:text="Registro de fumo:"
+        android:text="@string/registro_de_fumo"
         android:textColor="#44270D"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="46dp"
-        android:text="Tipo do cigarro:"
+        android:text="@string/tipo_do_cigarro"
         android:textColor="#44270D"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,13 +55,15 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/spinner_rg_cigarro"
+        android:contentDescription="@string/tipo_do_cigarro"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/textView3"
@@ -69,11 +71,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="60dp"
-        android:text="Duração (minutos):"
+        android:text="@string/dura_o_minutos"
         android:textColor="#44270D"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/duracaoFumo"
@@ -82,16 +85,19 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="20dp"
+        android:autofillHints=""
         android:background="@drawable/spinner_rg_cigarro"
         android:ems="10"
         android:inputType="number"
+        android:labelFor="@id/textView3"
         android:maxLength="3"
         android:paddingLeft="11dp"
         android:paddingRight="11dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/button"
@@ -105,7 +111,7 @@
         android:onClick="mandarRegistroBD"
         android:paddingTop="9dp"
         android:paddingBottom="9dp"
-        android:text="Cadastrar"
+        android:text="@string/cadastrar"
         android:textAllCaps="false"
         android:textSize="20sp"
         app:cornerRadius="10dp"
@@ -121,6 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="35dp"
+        android:contentDescription="@string/logo_unsmoke"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +140,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="345dp"
         android:background="@color/cardview_shadow_end_color"
+        android:contentDescription="@string/voltar_para_tela_inicial"
         android:onClick="voltarParaTelaInicial"
         app:icon="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"

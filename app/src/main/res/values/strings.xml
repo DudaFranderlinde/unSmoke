@@ -27,4 +27,27 @@
     <string name="quantidade_total">Quantidade total</string>
     <string name="quantidade_mensal">Quantidade mensal</string>
     <string name="quantidade_diaria">Quantidade diária</string>
+    <string name="foto_de_perfil_do_usu_rio">Foto de perfil do usuário</string>
+    <string name="nome_do_usu_rio">Nome do usuário</string>
+    <string name="suas_medalhas">Suas medalhas</string>
+    <string name="tipos_de_fumo_que_voc_utiliza">Tipos de fumo que você utiliza</string>
+    <string name="marcas_de_fumo_que_voc_utiliza">Marcas de fumo que você utiliza</string>
+    <string name="progresso">Progresso</string>
+    <string name="dia_tals">Dia tals</string>
+    <string name="tempo_de_vida_reduzido">Tempo de vida reduzido</string>
+    <string name="_1d_12h_8m">1d 12h 8m</string>
+    <string name="s_mbolo_tempo_de_vida_reduzido">Símbolo tempo de vida reduzido</string>
+    <string name="dinheiro_economizado">Dinheiro economizado</string>
+    <string name="s_mbolo_dinheiro_economizado">Símbolo dinheiro economizado</string>
+    <string name="r_7_000_00">R$ 7.000,00</string>
+    <string name="livre_de_fumar">Livre de fumar</string>
+    <string name="s_mbolo_livre_de_fumar">Símbolo livre de fumar</string>
+    <string name="quantidade_de_cigarros">Quantidade de cigarros</string>
+    <string name="_1_100">1.100</string>
+    <string name="s_mbolo_quantidade_de_cigarros">Símbolo quantidade de cigarros</string>
+    <string name="registro_de_fumo">Registro de fumo:</string>
+    <string name="tipo_do_cigarro">Tipo do cigarro:</string>
+    <string name="dura_o_minutos">Duração (minutos):</string>
+    <string name="logo_unsmoke">Logo unSmoke</string>
+    <string name="voltar_para_tela_inicial">Voltar para a tela inicial</string>
 </resources>

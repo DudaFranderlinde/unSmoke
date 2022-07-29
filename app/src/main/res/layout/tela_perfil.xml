@@ -47,6 +47,7 @@
             android:id="@+id/fotoUsu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/foto_de_perfil_do_usu_rio"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_person_outline_24" />
     </androidx.cardview.widget.CardView>
@@ -56,9 +57,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:hint="Nome do usuário"
+        android:hint="@string/nome_do_usu_rio"
         android:textAlignment="center"
         android:textColor="#000000"
+        android:textColorHint="#78909C"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +78,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nomeUsu"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="Deprecated" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -91,6 +94,7 @@
         tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
+            android:id="@+id/fundoMedalhas"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical" />
@@ -104,7 +108,7 @@
         android:background="#543311"
         android:fontFamily="@font/arbutus_slab"
         android:paddingTop="3dp"
-        android:text="Suas medalhas"
+        android:text="@string/suas_medalhas"
         android:textAlignment="center"
         android:textColor="@color/bege_pastel"
         android:textSize="20sp"
@@ -126,7 +130,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toTopOf="@+id/textView17" />
+        app:layout_constraintTop_toTopOf="@+id/textView17"
+        tools:ignore="Deprecated" />
 
     <TextView
         android:id="@+id/textView19"
@@ -134,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/arbutus_slab"
-        android:text="Tipos de fumo que você utiliza"
+        android:text="@string/tipos_de_fumo_que_voc_utiliza"
         android:textColor="#FFFFFF"
         android:textSize="19sp"
         android:textStyle="bold"
@@ -148,7 +153,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/arbutus_slab"
-        android:text="Marcas de fumo que você utiliza"
+        android:text="@string/marcas_de_fumo_que_voc_utiliza"
         android:textColor="#FFFFFF"
         android:textSize="19sp"
         android:textStyle="bold"
@@ -173,7 +178,9 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19"
+        tools:ignore="LabelFor,SpeakableTextPresentCheck"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/marcaFumo"
@@ -194,15 +201,17 @@
         app:layout_constraintEnd_toEndOf="@+id/textView18"
         app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView21"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck"
+        android:autofillHints="" />
 
     <CheckBox
         android:id="@+id/editInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:button="@android:drawable/divider_horizontal_bright"
         android:fontFamily="sans-serif-medium"
