@@ -1,5 +1,7 @@
 package com.example.unsmoke;
 
+import static java.lang.Integer.parseInt;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,9 +40,9 @@ public class TelaPadraoUso extends AppCompatActivity {
     public void salvarDadosUsuario(View s){
         Intent irTelaInicial = new Intent(this, TelaInicial.class);
 
-        String cigarroPorDia = cigarroDia.getText().toString();
-        String precoMacoCigarro = precoMaco.getText().toString();
-        String tempoFumarCigarro = tempoCigarro.getText().toString();
+        int cigarroPorDia = parseInt(cigarroDia.getText().toString());
+        int precoMacoCigarro = parseInt(precoMaco.getText().toString());
+        int tempoFumarCigarro = parseInt(tempoCigarro.getText().toString());
 
         if (cigarroDia.getText().length() == 0){
             cigarroDia.setError("Insira um valor válido");

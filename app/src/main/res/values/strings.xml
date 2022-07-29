@@ -6,4 +6,10 @@
     <string name="entrar">Entrar</string>
     <string name="cadastre_Se">Cadastre-se</string>
     <string name="logoDoAplicativoUnsmoke">Logo do aplicativo unSmoke</string>
+    <string name="crieSuaConta">Crie sua conta!</string>
+    <string name="digiteSeuNomeCompleto">Digite seu nome completo</string>
+    <string name="digiteSeuTelefone">Digite seu telefone</string>
+    <string name="digiteSeuEmail">Digite seu e-mail</string>
+    <string name="digiteSuaSenha">Digite sua senha</string>
+    <string name="cadastrar">Cadastrar</string>
 </resources>

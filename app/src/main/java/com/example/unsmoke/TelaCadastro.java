@@ -34,7 +34,6 @@ public class TelaCadastro extends AppCompatActivity {
     EditText nomeCompleto, telefoneCadastro, emailCadastro, senhaCadastro;
     CheckBox mostrarSenhaCadastro;
     Button criarConta;
-    String[] mensagens = {"Preencha todos os campos", "Cadastro realizado com sucesso"};
     String usuarioID;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

@@ -25,8 +25,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,8 +75,10 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         LocalDateTime dataHora = LocalDateTime.now();
 
-        DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        String dataFormatada = formatterData.format(dataHora);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
+        Date data = new Date(); // Pega a data atual
+        String dataAtual = sdf.format(data);
+
 
         DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
         String horaFormatada = formatterHora.format(dataHora);
@@ -88,9 +92,9 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         Map<String, Object> registroFumo = new HashMap<>();
         registroFumo.put("Tipo de fumo", tipo);
-        registroFumo.put("Duração", duracao);
+        registroFumo.put("Duração (minutos)", duracao);
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo").collection(dataFormatada).document(horaFormatada);
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo").collection(dataAtual).document(horaFormatada);
         dr.set(registroFumo);
 
         mandarBDCigarrosFumadosInicial();

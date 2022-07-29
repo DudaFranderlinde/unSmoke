@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class TelaLogin extends AppCompatActivity {
 
     EditText emailLogin, senhaLogin;
-    CheckBox mostrarSenha;
+    CheckBox mostrarSenhaLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,12 @@ public class TelaLogin extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
-        mostrarSenha = findViewById(R.id.mostrarSenha);
+        mostrarSenhaLogin = findViewById(R.id.mostrarSenhaLogin);
         emailLogin = findViewById(R.id.emailLogin);
         senhaLogin = findViewById(R.id.senhaLogin);
 
-        /*Intent irDireto = new Intent(this, TelaProgresso.class);
-        startActivity(irDireto);*/
+        Intent irDireto = new Intent(this, TelaPadraoUso.class);
+        startActivity(irDireto);
     }
 
     public void AutenticarUsuario(View a){
@@ -66,7 +66,7 @@ public class TelaLogin extends AppCompatActivity {
     }
 
     public void mostrarSenha(View m) {
-        if (mostrarSenha.isChecked()){
+        if (mostrarSenhaLogin.isChecked()){
             senhaLogin.setInputType(InputType.TYPE_CLASS_TEXT);
         }else{
             senhaLogin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

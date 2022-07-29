@@ -135,7 +135,7 @@
         app:srcCompat="@drawable/unsmoke_logo" />
 
     <CheckBox
-        android:id="@+id/mostrarSenha"
+        android:id="@+id/mostrarSenhaLogin"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:button="@drawable/ic_outline_remove_red_eye_24"
