@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,10 @@ public class TelaPadraoUso extends AppCompatActivity {
     public void salvarDadosUsuario(View s){
         Intent irTelaInicial = new Intent(this, TelaInicial.class);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
+        Date data = new Date(); // Pega a data atual
+        String dataAtual = sdf.format(data);
+
         int cigarroPorDia = parseInt(cigarroDia.getText().toString());
         int precoMacoCigarro = parseInt(precoMaco.getText().toString());
         int tempoFumarCigarro = parseInt(tempoCigarro.getText().toString());
@@ -59,6 +65,7 @@ public class TelaPadraoUso extends AppCompatActivity {
                 usuarios.put("Cigarros por dia", cigarroPorDia);
                 usuarios.put("Preço pago por maço de cigarro", precoMacoCigarro);
                 usuarios.put("Minutos levados para fumar 1 cigarro", tempoFumarCigarro);
+                usuarios.put("Data de cadastro inicial", dataAtual);
 
                 usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

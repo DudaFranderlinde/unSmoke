@@ -2,6 +2,7 @@ package com.example.unsmoke;
 
 import static java.lang.Integer.parseInt;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -92,17 +95,64 @@ public class TelaProgresso extends AppCompatActivity {
          }else{
 
          }
+
     }
 
-    public void calculaDinheiro(){
-        //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
+    public void pegarVarBD(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String tipoCigarro = null;//tive que inicar senão fica com erro
-        double valorMédio;
-        if(tipoCigarro.equals("Cigarro")){
-            valorMédio = 5.60;
-            double custoDia = valorMédio  /* * fumoDiario*/; // V
-            //double custoTotais = valorMédio * qtdCigarros;
-        }
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
+                        int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
+                        String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+
+                        calculaDinheiro(valorMacoCigarro, cigarrosFumadosPorDia, dataCadastro);
+                    }
+                }
+            }
+        });
+
+    }
+
+    public void calculaDinheiro(int valorMacoCigarro, int cigarrosFumadosPorDia, String dataCadastro){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+
+                    DocumentSnapshot ds = task.getResult();
+
+                    if(ds.exists()){
+
+                        int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
+
+                        String tipoCigarro = null;//tive que inicar senão fica com erro
+                        //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
+
+                        double valorMédio;
+                        if(tipoCigarro.equals("Cigarro")){
+                            valorMédio = 5.60;
+                            double custoDia = valorMédio  /* * fumoDiario*/; // V
+                            //double custoTotais = valorMédio * qtdCigarros;
+                        }
+
+                    }
+                }
+            }
+        });
+
+
     }
 }
