@@ -121,6 +121,23 @@ public class TelaProgresso extends AppCompatActivity {
             }
         });
 
+        DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo");
+        dR.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        String todosRegistros = documentSnapshot.getString("");
+                        String[] registros = {todosRegistros};
+
+                    }
+                }
+            }
+        });
     }
 
     public void calculaDinheiro(int valorMacoCigarro, int cigarrosFumadosPorDia, String dataCadastro){
@@ -137,6 +154,8 @@ public class TelaProgresso extends AppCompatActivity {
                     if(ds.exists()){
 
                         int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
+                        vidaReduzida(totalCigarrosFumados);
+                        qtdCigarros(totalCigarrosFumados);
 
                         String tipoCigarro = null;//tive que inicar senão fica com erro
                         //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
@@ -152,7 +171,34 @@ public class TelaProgresso extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void livreFumar(String dataCadastro){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+
+                    DocumentSnapshot ds = task.getResult();
+
+                    if(ds.exists()){
+
+                        String dataUltimoRegistro = ds.getString("Data de cadastro inicial");
+
+                    }
+                }
+            }
+        });
+    }
+
+    public void vidaReduzida(int totalCigarrosFumados){
+
+    }
+
+    public void qtdCigarros(int totalCigarrosFumados){
 
     }
 }
