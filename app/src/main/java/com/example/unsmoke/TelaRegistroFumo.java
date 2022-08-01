@@ -101,9 +101,15 @@ public class TelaRegistroFumo extends AppCompatActivity {
     }
 
     public void mandarBDCigarrosFumadosInicial(){
+        Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
+        Date data = new Date(); // Pega a data atual
+        String dataAtual = sdf.format(data);
+
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados").collection(dataAtual).document("Total de cigarros fumados");
 
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 
@@ -125,8 +131,10 @@ public class TelaRegistroFumo extends AppCompatActivity {
                         Map<String, Object> totalCigarrosFumados = new HashMap<>();
                         totalCigarrosFumados.put("Total de cigarros fumados", registroCigarroInicial);
 
-                        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+                        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados").collection(dataAtual).document("Total de cigarros fumados");
                         documentReference.set(totalCigarrosFumados);
+
+                        startActivity(voltarParaTelaInicial);
 
                     }
 
@@ -138,9 +146,14 @@ public class TelaRegistroFumo extends AppCompatActivity {
     }
 
     public void retornaInicioEaddFumo (){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
+        Date data = new Date(); // Pega a data atual
+        String dataAtual = sdf.format(data);
+
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados").collection(dataAtual).document("Total de cigarros fumados");
 
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 

@@ -36,6 +36,9 @@ public class TelaProgresso extends AppCompatActivity {
 
     TextView diasNoApp, qtdCigarros;
 
+    String[] tiposFumo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,43 +101,42 @@ public class TelaProgresso extends AppCompatActivity {
 
     }
 
-    public void pegarVarBD(){
+    public void chamarVariaveisRegistroFumoDiario(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
-        dr.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
+        dr.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
 
-                    DocumentSnapshot documentSnapshot = task.getResult();
+                DocumentSnapshot documentSnapshot = task.getResult();
 
-                    if (documentSnapshot.exists()){
+                if (documentSnapshot.exists()){
 
-                        int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
-                        int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
-                        String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+                    int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
+                    int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
+                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
 
-                        calculaDinheiro(valorMacoCigarro, cigarrosFumadosPorDia, dataCadastro);
-                    }
+                    calculaDinheiro(valorMacoCigarro, cigarrosFumadosPorDia, dataCadastro);
                 }
             }
         });
+    }
 
-        DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo");
-        dR.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
+    public void chamarVarCigarrosFumados(){
 
-                    DocumentSnapshot documentSnapshot = task.getResult();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        documentReference.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
 
-                    if (documentSnapshot.exists()){
+                DocumentSnapshot ds = task.getResult();
 
-                        String todosRegistros = documentSnapshot.getString("");
-                        String[] registros = {todosRegistros};
+                if(ds.exists()){
 
-                    }
+                    int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
+                    vidaReduzida(totalCigarrosFumados);
+                    qtdCigarros(totalCigarrosFumados);
+
                 }
             }
         });
@@ -142,60 +144,20 @@ public class TelaProgresso extends AppCompatActivity {
 
     public void calculaDinheiro(int valorMacoCigarro, int cigarrosFumadosPorDia, String dataCadastro){
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+        String tipoCigarro = null;//tive que inicar senão fica com erro
+        //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
 
-                    DocumentSnapshot ds = task.getResult();
+        double valorMédio;
+        if(tipoCigarro.equals("Cigarro")){
+            valorMédio = 5.60;
+            double custoDia = valorMédio  /* * fumoDiario*/; // V
+            //double custoTotais = valorMédio * qtdCigarros;
+        }
 
-                    if(ds.exists()){
-
-                        int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
-                        vidaReduzida(totalCigarrosFumados);
-                        qtdCigarros(totalCigarrosFumados);
-
-                        String tipoCigarro = null;//tive que inicar senão fica com erro
-                        //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
-
-                        double valorMédio;
-                        if(tipoCigarro.equals("Cigarro")){
-                            valorMédio = 5.60;
-                            double custoDia = valorMédio  /* * fumoDiario*/; // V
-                            //double custoTotais = valorMédio * qtdCigarros;
-                        }
-
-                    }
-                }
-            }
-        });
-    }
-
-    public void livreFumar(String dataCadastro){
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-
-                    DocumentSnapshot ds = task.getResult();
-
-                    if(ds.exists()){
-
-                        String dataUltimoRegistro = ds.getString("Data de cadastro inicial");
-
-                    }
-                }
-            }
-        });
     }
 
     public void vidaReduzida(int totalCigarrosFumados){
-
+        String juj = "umdoistres";
     }
 
     public void qtdCigarros(int totalCigarrosFumados){

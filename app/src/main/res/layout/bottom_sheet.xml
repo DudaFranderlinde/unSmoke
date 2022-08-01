@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/verde_claro"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="Você chegou ao ponto de fumo excessivo!"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="23sp" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/marrom_escuro"
+        android:fontFamily="@font/actor"
+        android:text="Ok! Não quero prejudicar mais ainda a minha saúde!"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</LinearLayout>

@@ -20,6 +20,9 @@ public class TelaInicial extends AppCompatActivity {
         getSupportActionBar().hide();
 
         checkMeta = findViewById(R.id.checkMeta);
+
+        ExampleBottomSheetDialog bottomSheetDialog = new ExampleBottomSheetDialog();
+        bottomSheetDialog.show(getSupportFragmentManager(), "exampleBottomSheet");
     }
 
     public void irTelaProgresso(View i){

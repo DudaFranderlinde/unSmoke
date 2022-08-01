@@ -61,8 +61,10 @@
         android:editable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar3"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="Deprecated" />
 
     <TextView
@@ -138,13 +140,12 @@
         android:id="@+id/view2"
         android:layout_width="1dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:background="@color/marrom_escuro"
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <View
         android:id="@+id/view3"
@@ -200,45 +201,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
     <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/livre_de_fumar"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/view3"
-        app:layout_constraintEnd_toStartOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/livreFumo"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/livreFumo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:hint="@string/_1d_12h_8m"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#81C784"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:contentDescription="@string/s_mbolo_livre_de_fumar"
-        app:layout_constraintEnd_toStartOf="@+id/view2"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:srcCompat="@drawable/ic_baseline_flag_24" />
-
-    <TextView
         android:id="@+id/textView32"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -248,7 +210,7 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
-        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/qtdCigarros"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -263,7 +225,7 @@
         android:textColorHint="#81C784"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
-        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
     <ImageView
@@ -273,7 +235,7 @@
         android:layout_marginTop="52dp"
         android:contentDescription="@string/s_mbolo_quantidade_de_cigarros"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
-        app:layout_constraintStart_toEndOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         app:srcCompat="@drawable/ic_baseline_smoking_rooms_24" />
 
