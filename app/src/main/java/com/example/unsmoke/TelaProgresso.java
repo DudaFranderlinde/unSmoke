@@ -157,7 +157,7 @@ public class TelaProgresso extends AppCompatActivity {
     }
 
     public void vidaReduzida(int totalCigarrosFumados){
-        String juj = "umdoistres";
+
     }
 
     public void qtdCigarros(int totalCigarrosFumados){
