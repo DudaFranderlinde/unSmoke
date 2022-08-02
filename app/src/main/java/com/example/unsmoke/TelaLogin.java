@@ -10,8 +10,11 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
@@ -77,4 +80,30 @@ public class TelaLogin extends AppCompatActivity {
         Intent go = new Intent(this, TelaCadastro.class);
         startActivity(go);
     }
+
+    public void recuperarSenha(View r){
+
+        String email = emailLogin.getText().toString();
+
+        if (email.isEmpty()){
+            emailLogin.setError("Você precisa inserir o seu email para recuperar a sua senha");
+        }else{
+            enviarEmail(email);
+        }
+    }
+
+    private void enviarEmail(String email){
+        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getBaseContext(), "Enviamos uma mensagem para o seu email com um link para redefinição da senha", Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getBaseContext(), "Erro ao enviar o email", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
