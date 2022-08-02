@@ -108,7 +108,7 @@
         android:layout_marginEnd="30dp"
         android:backgroundTint="#44270D"
         android:fontFamily="@font/arbutus_slab"
-        android:onClick="mandarRegistroBD"
+        android:onClick="validandoDados"
         android:paddingTop="9dp"
         android:paddingBottom="9dp"
         android:text="@string/cadastrar"

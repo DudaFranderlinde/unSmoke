@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -72,7 +73,23 @@ public class TelaRegistroFumo extends AppCompatActivity {
         });
     }
 
-    public void mandarRegistroBD(View m){
+    public void validandoDados(View v){
+        String tipo = spTiposFumo.getSelectedItem().toString();
+        String duracao = duracaoFumo.getText().toString();
+
+        if (tipo == "Tipo de fumo"){
+            TextView errorText = (TextView)spTiposFumo.getSelectedView();
+            errorText.setError("anything here, just to add the icon");
+            errorText.setTextColor(Color.RED);//just to highlight that this is an error
+            errorText.setText("Selecione um sexo válido");
+        }else if(duracao.length() == 0){
+            duracaoFumo.setError("Insira um valor válido!");
+        }else{
+            mandarRegistroBD();
+        }
+    }
+
+    public void mandarRegistroBD(){
 
         LocalDateTime dataHora = LocalDateTime.now();
 
