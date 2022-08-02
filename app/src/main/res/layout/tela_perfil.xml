@@ -50,6 +50,7 @@
             android:contentDescription="@string/foto_de_perfil_do_usu_rio"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_person_outline_24" />
+
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -189,5 +190,21 @@
         app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/marcaFumo"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/deslogar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="345dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="6dp"
+        android:onClick="deslogar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar2"
+        app:layout_constraintStart_toStartOf="@+id/toolbar2"
+        app:layout_constraintTop_toTopOf="@+id/toolbar2"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/logout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

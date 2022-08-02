@@ -34,7 +34,7 @@ public class TelaPerfil extends AppCompatActivity {
 
     TextView nomeUsu;
     EditText tipoFumo, marcaFumo;
-    ImageView fotoUsu;
+    ImageView fotoUsu, deslogar;
     Button voltarTela;
     CheckBox editInfo;
 
@@ -55,6 +55,7 @@ public class TelaPerfil extends AppCompatActivity {
         editInfo = findViewById(R.id.editInfo);
         tipoFumo = findViewById(R.id.tipoFumo);
         marcaFumo = findViewById(R.id.marcaFumo);
+        deslogar = findViewById(R.id.deslogar);
 
         fotoUsu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,4 +132,12 @@ public class TelaPerfil extends AppCompatActivity {
             marcaFumo.setEnabled(false);
         }
     }
+
+    public void deslogar(View d){
+        FirebaseAuth.getInstance().signOut();
+        Intent i = new Intent (TelaPerfil.this, TelaLogin.class);
+        startActivity(i);
+        finish();
+    }
+
 }
