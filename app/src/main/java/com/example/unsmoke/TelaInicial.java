@@ -45,15 +45,10 @@ public class TelaInicial extends AppCompatActivity {
         qntdTotal = findViewById(R.id.qntdTotal);
 
         mostrarBottomSheet();
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         popularQntdDiaria();
         popularQntdMensal();
         popularQntdTotal();
+
     }
 
     public void mostrarBottomSheet(){
