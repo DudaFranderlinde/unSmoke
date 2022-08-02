@@ -51,4 +51,5 @@
     <string name="logo_unsmoke">Logo unSmoke</string>
     <string name="voltar_para_tela_inicial">Voltar para a tela inicial</string>
     <string name="voc_chegou_ao_ponto_di_rio_de_uso_excessivo_de_fumo">Você chegou ao ponto diário de uso excessivo de fumo!</string>
+    <string name="deslogar">Fazer logout</string>
 </resources>
