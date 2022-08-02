@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/verde_claro"
+
     android:orientation="vertical">
 
     <TextView
@@ -19,17 +20,17 @@
         android:textSize="23sp" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonOk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/marrom_escuro"
         android:fontFamily="@font/actor"
-        android:text="Ok! Não quero prejudicar mais ainda a minha saúde!"
+        android:text="Ok! Vou maneirar"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 </LinearLayout>
