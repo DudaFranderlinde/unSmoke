@@ -38,6 +38,8 @@ public class TelaProgresso extends AppCompatActivity {
 
     String[] tiposFumo;
 
+    String dataDeCadastro;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,9 @@ public class TelaProgresso extends AppCompatActivity {
         diasNoApp = findViewById(R.id.diasNoApp);
         qtdCigarros = findViewById(R.id.qtdCigarros);
 
-        qtdCigarros.setText(" ");
+        calculaDinheiro();
+        getExemplo();
+
     }
 
     @Override
@@ -82,6 +86,8 @@ public class TelaProgresso extends AppCompatActivity {
                 }
             }
         });
+        chamarVariaveisRegistroFumoDiario();
+
     }
 
     public void voltarParaTelaInicial(View v){
@@ -89,19 +95,36 @@ public class TelaProgresso extends AppCompatActivity {
         startActivity(voltarParaTelaInicial);
     }
 
-    public void configCigarroFumados(){
-        // Falta: conectar variavel com BD e conseguir pegar o valor dele pra usar na comparação
-         int cigarros = Integer.parseInt(qtdCigarros.getText().toString());
+    public void chamarVariaveisRegistroFumoDiario(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-         if(cigarros <= 0 ){
-             qtdCigarros.setText("0");
-         }else{
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+        dr.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
 
-         }
+                DocumentSnapshot documentSnapshot = task.getResult();
+
+                if (documentSnapshot.exists()){
+                    System.out.println("Entrou");
+                    int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
+                    int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
+                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+
+                    valorMacoCigarro = valorMacoCigarro / 20;
+                    mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
+                    valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
+                    tempoApp = dataCadastro - dataAtual;
+                    gastoPorDia = (TempoApp * mediaGasto) - valorGasto;
+                    qtdCigarros.setText();
+
+                }
+            }
+        });
 
     }
 
-    public void chamarVariaveisRegistroFumoDiario(){
+
+    public String getExemplo() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
@@ -116,11 +139,16 @@ public class TelaProgresso extends AppCompatActivity {
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
 
-                    calculaDinheiro(valorMacoCigarro, cigarrosFumadosPorDia, dataCadastro);
+                    dataDeCadastro = dataCadastro;
+                    qtdCigarros.setText(dataDeCadastro);
                 }
             }
         });
+        return dataDeCadastro;
     }
+
+
+
 
     public void chamarVarCigarrosFumados(){
 
@@ -142,25 +170,18 @@ public class TelaProgresso extends AppCompatActivity {
         });
     }
 
-    public void calculaDinheiro(int valorMacoCigarro, int cigarrosFumadosPorDia, String dataCadastro){
+    public void calculaDinheiro( ){
 
-        String tipoCigarro = null;//tive que inicar senão fica com erro
-        //Falta: conectar com o BD pra saber quais são os tipos, valor e qtd média de fumo diário para calcular uma média de dinheiro gasto
-
-        double valorMédio;
-        if(tipoCigarro.equals("Cigarro")){
-            valorMédio = 5.60;
-            double custoDia = valorMédio  /* * fumoDiario*/; // V
-            //double custoTotais = valorMédio * qtdCigarros;
-        }
 
     }
+
+
 
     public void vidaReduzida(int totalCigarrosFumados){
 
     }
 
     public void qtdCigarros(int totalCigarrosFumados){
-
+        qtdCigarros.setText(totalCigarrosFumados);
     }
 }
