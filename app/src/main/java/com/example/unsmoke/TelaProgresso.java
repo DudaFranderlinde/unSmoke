@@ -39,6 +39,7 @@ public class TelaProgresso extends AppCompatActivity {
     String[] tiposFumo;
 
     String dataDeCadastro;
+    int fumototal;
 
 
     @Override
@@ -86,7 +87,6 @@ public class TelaProgresso extends AppCompatActivity {
                 }
             }
         });
-        chamarVariaveisRegistroFumoDiario();
 
     }
 
@@ -110,12 +110,12 @@ public class TelaProgresso extends AppCompatActivity {
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
 
-                    valorMacoCigarro = valorMacoCigarro / 20;
-                    mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
-                    valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
-                    tempoApp = dataCadastro - dataAtual;
-                    gastoPorDia = (TempoApp * mediaGasto) - valorGasto;
-                    qtdCigarros.setText();
+//                    valorMacoCigarro = valorMacoCigarro / 20;
+//                    int mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
+//                    int valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
+//                    int tempoApp = dataCadastro - dataAtual;
+//                    int gastoPorDia = (TempoApp * mediaGasto) - valorGasto;
+//                    qtdCigarros.setText();
 
                 }
             }
@@ -138,9 +138,9 @@ public class TelaProgresso extends AppCompatActivity {
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-
+                   
                     dataDeCadastro = dataCadastro;
-                    qtdCigarros.setText(dataDeCadastro);
+                    qtdCigarros.setText( chamarVarCigarrosFumados());
                 }
             }
         });
@@ -150,7 +150,7 @@ public class TelaProgresso extends AppCompatActivity {
 
 
 
-    public void chamarVarCigarrosFumados(){
+    public int chamarVarCigarrosFumados(){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
@@ -162,12 +162,14 @@ public class TelaProgresso extends AppCompatActivity {
                 if(ds.exists()){
 
                     int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
-                    vidaReduzida(totalCigarrosFumados);
-                    qtdCigarros(totalCigarrosFumados);
+                     fumototal = totalCigarrosFumados;
+
+
 
                 }
             }
         });
+        return fumototal;
     }
 
     public void calculaDinheiro( ){
