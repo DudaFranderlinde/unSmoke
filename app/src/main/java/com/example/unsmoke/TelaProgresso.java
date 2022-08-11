@@ -52,8 +52,10 @@ public class TelaProgresso extends AppCompatActivity {
         diasNoApp = findViewById(R.id.diasNoApp);
         qtdCigarros = findViewById(R.id.qtdCigarros);
 
+
+        qtdCigarrosTotal();
+
         calculaDinheiro();
-        getExemplo();
 
     }
 
@@ -79,6 +81,7 @@ public class TelaProgresso extends AppCompatActivity {
                         long diff = TimeUnit.DAYS.convert(diffEmMil, TimeUnit.MILLISECONDS);
 
                         int data = (int) diff;
+                        System.out.println(data);
                         diasNoApp.setText(data);
                     }catch (ParseException e){
                         e.printStackTrace();
@@ -109,13 +112,14 @@ public class TelaProgresso extends AppCompatActivity {
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+                    LocalDate dataAtual = LocalDate.now()
 
 //                    valorMacoCigarro = valorMacoCigarro / 20;
 //                    int mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
 //                    int valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
 //                    int tempoApp = dataCadastro - dataAtual;
-//                    int gastoPorDia = (TempoApp * mediaGasto) - valorGasto;
-//                    qtdCigarros.setText();
+//                    int gastoTotal = (tempoApp * mediaGasto) - valorGasto;
+//                    qtdCigarros.setText(gastoTotal);
 
                 }
             }
@@ -124,33 +128,33 @@ public class TelaProgresso extends AppCompatActivity {
     }
 
 
-    public String getExemplo() {
+    public void calculaDinheiro( ){
+
+
+    }
+
+
+
+    public void vidaReduzida( ){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
+        documentReference.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
-        dr.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+                DocumentSnapshot ds = task.getResult();
 
-                DocumentSnapshot documentSnapshot = task.getResult();
+                if(ds.exists()){
 
-                if (documentSnapshot.exists()){
+                    int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
+                    int tempoTirado = 11;
 
-                    int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
-                    int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
-                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-                   
-                    dataDeCadastro = dataCadastro;
-                    qtdCigarros.setText( chamarVarCigarrosFumados());
+                    int vidaReduzida = tempoTirado * totalCigarrosFumados;
                 }
             }
         });
-        return dataDeCadastro;
     }
 
-
-
-
-    public int chamarVarCigarrosFumados(){
+    public void qtdCigarrosTotal(){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de cigarros fumados");
@@ -162,28 +166,10 @@ public class TelaProgresso extends AppCompatActivity {
                 if(ds.exists()){
 
                     int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
-                     fumototal = totalCigarrosFumados;
-
-
-
                 }
             }
         });
-        return fumototal;
-    }
 
-    public void calculaDinheiro( ){
-
-
-    }
-
-
-
-    public void vidaReduzida(int totalCigarrosFumados){
-
-    }
-
-    public void qtdCigarros(int totalCigarrosFumados){
         qtdCigarros.setText(totalCigarrosFumados);
     }
 }
