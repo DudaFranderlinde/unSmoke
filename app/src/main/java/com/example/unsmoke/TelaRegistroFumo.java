@@ -117,7 +117,8 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         mandarBDCigarrosFumadosInicialData();
         mandarBDCigarFumInicialMes();
-        mandarBDCigarFumInicialTotal();
+        mandarBDCigarFumInicialTotal1();
+        mandarBDCigarFumInicialTotal2();
     }
 
     public void mandarBDCigarrosFumadosInicialData(){
@@ -322,7 +323,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         startActivity(voltarParaTelaInicial);
     }
 
-    public void mandarBDCigarFumInicialTotal(){
+    public void mandarBDCigarFumInicialTotal1(){
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -346,7 +347,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
                     if (documentSnapshot.exists()){
 
-                        retornaInicioEaddFumoTotal();
+                        retornaInicioEaddFumoTotal1();
 
                     } else {
 
@@ -375,7 +376,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         });
     }
 
-    public void retornaInicioEaddFumoTotal(){
+    public void retornaInicioEaddFumoTotal1(){
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
@@ -410,6 +411,86 @@ public class TelaRegistroFumo extends AppCompatActivity {
         });
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
+    }
+
+    public void mandarBDCigarFumInicialTotal2(){
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(usuarioID)
+                .document("Dados de fumo diário")
+                .collection("Total de cigarros fumados")
+                .document("Total de cigarros fumados");
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        retornaInicioEaddFumoTotal2();
+
+                    } else {
+
+                        int registroCigarroInicial = 1;
+
+                        Map<String, Object> totalCigarrosFumadosTotal = new HashMap<>();
+                        totalCigarrosFumadosTotal.put("Total de fumos", registroCigarroInicial);
+
+                        DocumentReference documentReference = db
+                                .collection("Usuarios")
+                                .document("Dados")
+                                .collection(usuarioID)
+                                .document("Dados de fumo diário")
+                                .collection("Total de cigarros fumados")
+                                .document("Total de cigarros fumados");
+                        documentReference.set(totalCigarrosFumadosTotal);
+                    }
+                }
+            }
+        });
+    }
+
+    public void retornaInicioEaddFumoTotal2(){
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = db
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(usuarioID)
+                .document("Dados de fumo diário")
+                .collection("Total de cigarros fumados")
+                .document("Total de cigarros fumados");
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()){
+
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    if (documentSnapshot.exists()){
+
+                        int totalCigarFumAtual = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
+                        int registraCigarro = ++totalCigarFumAtual;
+
+                        Map<String, Object> totalCigarrosFumadosTotal = new HashMap<>();
+                        totalCigarrosFumadosTotal.put("Total de fumos", registraCigarro);
+
+                        documentReference.set(totalCigarrosFumadosTotal);
+                    }
+                }
+            }
+        });
     }
 
     public void voltarParaTelaInicial(View w){

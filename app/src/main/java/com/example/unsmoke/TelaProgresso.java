@@ -31,7 +31,7 @@ public class TelaProgresso extends AppCompatActivity {
 
     String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //Formata
     Date data = new Date(); // Pega a dataAtual
 
     TextView diasNoApp, qtdCigarros;
@@ -90,15 +90,9 @@ public class TelaProgresso extends AppCompatActivity {
                 }
             }
         });
-
     }
 
-    public void voltarParaTelaInicial(View v){
-        Intent voltarParaTelaInicial = new Intent (this, TelaInicial.class);
-        startActivity(voltarParaTelaInicial);
-    }
-
-    public void chamarVariaveisRegistroFumoDiario(){
+    public void calculaDinheiro( ){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
@@ -108,29 +102,33 @@ public class TelaProgresso extends AppCompatActivity {
                 DocumentSnapshot documentSnapshot = task.getResult();
 
                 if (documentSnapshot.exists()){
-                    System.out.println("Entrou");
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-                    LocalDate dataAtual = LocalDate.now()
+                    //LocalDate dataAtual = LocalDate.now()
 
-//                    valorMacoCigarro = valorMacoCigarro / 20;
-//                    int mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
-//                    int valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
-//                    int tempoApp = dataCadastro - dataAtual;
-//                    int gastoTotal = (tempoApp * mediaGasto) - valorGasto;
-//                    qtdCigarros.setText(gastoTotal);
 
+                    DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
+                    dR.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()){
+
+                            DocumentSnapshot documentSnapshoT = task1.getResult();
+
+                            if (documentSnapshoT.exists()){
+                                int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
+
+//                                    valorMacoCigarro = valorMacoCigarro / 20;
+//                                    int mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
+//                                    int valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
+//                                    int tempoApp = dataCadastro - dataAtual;
+//                                    int gastoTotal = (tempoApp * mediaGasto) - valorGasto;
+//                                    qtdCigarros.setText(gastoTotal);
+                            }
+                        }
+                    });
                 }
             }
         });
-
-    }
-
-
-    public void calculaDinheiro( ){
-
-
     }
 
 
@@ -170,6 +168,11 @@ public class TelaProgresso extends AppCompatActivity {
             }
         });
 
-        qtdCigarros.setText(totalCigarrosFumados);
+        //qtdCigarros.setText(totalCigarrosFumados);
+    }
+
+    public void voltarParaTelaInicial(View v){
+        Intent voltarParaTelaInicial = new Intent (this, TelaInicial.class);
+        startActivity(voltarParaTelaInicial);
     }
 }
