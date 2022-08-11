@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -94,7 +95,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         LocalDateTime dataHora = LocalDateTime.now();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        Date data = new Date(); // Pega a data atual
+        LocalDate data = LocalDate.now(); // Pega a data atual
         String dataAtual = sdf.format(data);
 
 
@@ -125,7 +126,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        Date data = new Date(); // Pega a data atual
+        LocalDate data = LocalDate.now(); // Pega a data atual
         String dataAtual = sdf.format(data);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -183,7 +184,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
     public void retornaInicioEaddFumoData(){
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        Date data = new Date(); // Pega a data atual
+        LocalDate data = LocalDate.now(); // Pega a data atual
         String dataAtual = sdf.format(data);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();

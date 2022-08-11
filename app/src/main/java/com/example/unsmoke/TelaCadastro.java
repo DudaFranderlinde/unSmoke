@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class TelaCadastro extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    Date data = new Date();
+    LocalDate data = LocalDate.now();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

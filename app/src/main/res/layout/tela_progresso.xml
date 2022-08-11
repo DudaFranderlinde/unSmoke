@@ -108,11 +108,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/textView27"
+        app:layout_constraintTop_toBottomOf="@+id/txtVidaReduzida"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView27"
+        android:id="@+id/txtVidaReduzida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

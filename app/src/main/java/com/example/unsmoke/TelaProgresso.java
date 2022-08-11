@@ -22,9 +22,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.sql.Time;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class TelaProgresso extends AppCompatActivity {
@@ -32,15 +36,11 @@ public class TelaProgresso extends AppCompatActivity {
     String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //Formata
-    Date data = new Date(); // Pega a dataAtual
+    LocalDate data = LocalDate.now(); // Pega a dataAtual
 
-    TextView diasNoApp, qtdCigarros;
+    TextView diasNoApp, qtdCigarros, txtVidaReduzida;
 
     String[] tiposFumo;
-
-    String dataDeCadastro;
-    int fumototal;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,10 @@ public class TelaProgresso extends AppCompatActivity {
 
         diasNoApp = findViewById(R.id.diasNoApp);
         qtdCigarros = findViewById(R.id.qtdCigarros);
-
+        txtVidaReduzida = findViewById(R.id.txtVidaReduzida);
 
         qtdCigarrosTotal();
-
+        vidaReduzida();
         calculaDinheiro();
 
     }
@@ -105,7 +105,9 @@ public class TelaProgresso extends AppCompatActivity {
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
                     String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-                    //LocalDate dataAtual = LocalDate.now()
+                    LocalDate dataDeCadastro = LocalDate.parse(dataCadastro, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+                    LocalDate dataAtual = LocalDate.now();
 
 
                     DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
@@ -117,13 +119,20 @@ public class TelaProgresso extends AppCompatActivity {
                             if (documentSnapshoT.exists()){
                                 int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
 
-//                                    valorMacoCigarro = valorMacoCigarro / 20;
-//                                    int mediaGasto = valorMacoCigarro * cigarrosFumadosPorDia;
-//                                    int valorGasto = valorMacoCigarro * qtdTotalCigarrosFumados;
-//                                    int tempoApp = dataCadastro - dataAtual;
-//                                    int gastoTotal = (tempoApp * mediaGasto) - valorGasto;
-//                                    qtdCigarros.setText(gastoTotal);
+                                float precoCigarroUni = valorMacoCigarro / 20;
+                                float mediaGasto = precoCigarroUni * cigarrosFumadosPorDia;
+                                float valorGasto = valorMacoCigarro * totalCigarrosFumados;
+                                int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
+                                float dinheiroEconomizado = (tempoApp * mediaGasto) - valorGasto;
+
+                                Locale ptBr = new Locale("pt", "BR");
+                                String valorString = NumberFormat.getCurrencyInstance(ptBr).format(dinheiroEconomizado);
+                                System.out.println(valorString);
+
+
+                                qtdCigarros.setText(valorString);
                             }
+
                         }
                     });
                 }
@@ -147,6 +156,7 @@ public class TelaProgresso extends AppCompatActivity {
                     int tempoTirado = 11;
 
                     int vidaReduzida = tempoTirado * totalCigarrosFumados;
+                    txtVidaReduzida.setText(vidaReduzida);
                 }
             }
         });
@@ -164,11 +174,12 @@ public class TelaProgresso extends AppCompatActivity {
                 if(ds.exists()){
 
                     int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de cigarros fumados"));
+                    qtdCigarros.setText(totalCigarrosFumados);
                 }
             }
         });
 
-        //qtdCigarros.setText(totalCigarrosFumados);
+
     }
 
     public void voltarParaTelaInicial(View v){
