@@ -49,31 +49,27 @@ public class TelaProgresso extends AppCompatActivity {
         txtVidaReduzida = findViewById(R.id.txtVidaReduzida);
         dindin = findViewById(R.id.dindin);
 
-        calculaDinheiro();
+        setarDias();
         qtdCigarrosTotal();
         vidaReduzida();
-
+        calculaDinheiro();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+    public void setarDias(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 if (documentSnapshot != null){
 
-                    String data1 = documentSnapshot.getString("Data de cadastro");
-                    DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+                    LocalDate dataDeCadastro = LocalDate.parse(dataCadastro, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
-                    LocalDate dataDeCadastro = LocalDate.parse(data1, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
                     LocalDate dataAtual = LocalDate.now();
-
-                    int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
+                    System.out.println(dataAtual);
+                    int tempoApp = dataAtual.getDayOfYear() - dataDeCadastro.getDayOfYear();
                     diasNoApp.setText("Dia " + tempoApp);
                 }
             }
@@ -101,7 +97,6 @@ public class TelaProgresso extends AppCompatActivity {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                             if (documentSnapshot != null){
-
                                 float totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
 
                                 float precoCigarroUni = valorMacoCigarro / 20;
@@ -128,7 +123,6 @@ public class TelaProgresso extends AppCompatActivity {
                 DocumentSnapshot ds = task.getResult();
 
                 if(ds.exists()){
-                    System.out.println("vai vai vai vai vai");
 
                     int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
 
@@ -145,7 +139,7 @@ public class TelaProgresso extends AppCompatActivity {
                         dia++;
                     }
 
-                    msg = +dia + "d " + horas + "h " + min + "m";
+                    msg = +dia + "d " + horas + "h " + min + "min";
 
                     txtVidaReduzida.setText(msg);
                 }
@@ -164,7 +158,6 @@ public class TelaProgresso extends AppCompatActivity {
                 if(ds.exists()){
                     int totalCigarrosFumados = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
                     String vai = Integer.toString(totalCigarrosFumados);
-                    System.out.println("vai vai vai");
                     qtdCigarros.setText(vai);
                 }
             }
