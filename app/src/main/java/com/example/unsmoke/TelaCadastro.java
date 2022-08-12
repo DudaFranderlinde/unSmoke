@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,9 +39,9 @@ public class TelaCadastro extends AppCompatActivity {
     Button criarConta;
     String usuarioID;
 
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDate data = LocalDate.now();
+    String dataCadastro = data.format(formata);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,6 @@ public class TelaCadastro extends AppCompatActivity {
 
     private void SalvarDadosUsuario(){
 
-        String dataCadastro = sdf.format(data);
         String nome = nomeCompleto.getText().toString();
         String telefone = telefoneCadastro.getText().toString();
         String email = emailCadastro.getText().toString();

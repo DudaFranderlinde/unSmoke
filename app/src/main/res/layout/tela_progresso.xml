@@ -74,7 +74,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/arbutus_slab"
-        android:hint="@string/dia_tals"
+        android:gravity="center"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textColorHint="#A1FFFFFF"
         android:textSize="18sp"
@@ -82,19 +83,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toTopOf="@+id/textView24" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="400dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView24"
-        app:layout_constraintEnd_toEndOf="@+id/textView24"
-        app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/diasNoApp" />
 
     <TextView
         android:id="@+id/textView26"
@@ -117,8 +105,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/arbutus_slab"
-        android:hint="@string/_1d_12h_8m"
-        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#81C784"
         android:textColorHint="#81C784"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
@@ -162,7 +151,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/textView29"
+        app:layout_constraintTop_toBottomOf="@+id/dindin"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -177,13 +166,14 @@
         app:srcCompat="@drawable/ic_baseline_attach_money_24" />
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/dindin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/arbutus_slab"
-        android:hint="@string/r_7_000_00"
-        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#81C784"
         android:textColorHint="#81C784"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
@@ -209,7 +199,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/arbutus_slab"
-        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#81C784"
         android:textColorHint="#81C784"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
@@ -220,11 +212,11 @@
         android:id="@+id/imageView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:contentDescription="@string/s_mbolo_quantidade_de_cigarros"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:srcCompat="@drawable/ic_baseline_smoking_rooms_24" />
 
     <View
@@ -240,5 +232,17 @@
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/textView26"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="400dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView24"
+        app:layout_constraintEnd_toEndOf="@+id/textView24"
+        app:layout_constraintStart_toStartOf="@+id/textView24"
+        app:layout_constraintTop_toBottomOf="@+id/diasNoApp"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/cigarrete2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

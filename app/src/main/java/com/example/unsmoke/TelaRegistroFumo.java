@@ -94,9 +94,9 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
         LocalDateTime dataHora = LocalDateTime.now();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        LocalDate data = LocalDate.now(); // Pega a data atual
-        String dataAtual = sdf.format(data);
+        DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate data = LocalDate.now();
+        String dataAtual = data.format(formata);
 
 
         DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -125,9 +125,9 @@ public class TelaRegistroFumo extends AppCompatActivity {
     public void mandarBDCigarrosFumadosInicialData(){
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        LocalDate data = LocalDate.now(); // Pega a data atual
-        String dataAtual = sdf.format(data);
+        DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate data = LocalDate.now();
+        String dataAtual = data.format(formata);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -183,9 +183,9 @@ public class TelaRegistroFumo extends AppCompatActivity {
 
     public void retornaInicioEaddFumoData(){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        LocalDate data = LocalDate.now(); // Pega a data atual
-        String dataAtual = sdf.format(data);
+        DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate data = LocalDate.now();
+        String dataAtual = data.format(formata);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
