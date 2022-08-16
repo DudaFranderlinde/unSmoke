@@ -6,11 +6,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +45,21 @@ public class TelaProgresso extends AppCompatActivity {
 
     TextView diasNoApp, qtdCigarros, txtVidaReduzida, dindin;
 
+    String prevStarted = "yes";
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedpreferences = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
+        if (!sharedpreferences.getBoolean(prevStarted, false)) {
+            showDialog();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean(prevStarted, Boolean.TRUE);
+            editor.apply();
+        }else {
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +70,7 @@ public class TelaProgresso extends AppCompatActivity {
         diasNoApp = findViewById(R.id.diasNoApp);
         qtdCigarros = findViewById(R.id.qtdCigarros);
         txtVidaReduzida = findViewById(R.id.txtVidaReduzida);
-        dindin = findViewById(R.id.dindin);
+        dindin = findViewById(R.id.dinheiro);
 
         setarDias();
         qtdCigarrosTotal();
@@ -103,9 +126,10 @@ public class TelaProgresso extends AppCompatActivity {
                                 float mediaGasto = precoCigarroUni * cigarrosFumadosPorDia;
                                 float valorGasto = precoCigarroUni * totalCigarrosFumados;
                                 int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
-                                float dinheiroEconomizado = (tempoApp * mediaGasto) - valorGasto;
+                                float dinheiroEconomizado = valorGasto - (tempoApp * mediaGasto);
 
-                                dindin.setText("R$ " + dinheiroEconomizado);
+                                ;
+                               dindin.setText(NumberFormat.getCurrencyInstance().format(dinheiroEconomizado));
                             }
                         }
                     });
@@ -133,10 +157,12 @@ public class TelaProgresso extends AppCompatActivity {
 
                     while (min > 59) {
                         horas++;
+                        break;
                     }
 
                     while (horas > 23) {
                         dia++;
+                        break;
                     }
 
                     msg = +dia + "d " + horas + "h " + min + "min";
@@ -162,6 +188,21 @@ public class TelaProgresso extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void showDialog() {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_progresso);
+
+        //LinearLayout Text = dialog.findViewById(R.id.aviso);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
 
     public void voltarParaTelaInicial(View v){
