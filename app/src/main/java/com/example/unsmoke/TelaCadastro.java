@@ -121,6 +121,7 @@ public class TelaCadastro extends AppCompatActivity {
         String telefone = telefoneCadastro.getText().toString();
         String email = emailCadastro.getText().toString();
         String senha = senhaCadastro.getText().toString();
+        String prevStarted = "no";
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -130,6 +131,7 @@ public class TelaCadastro extends AppCompatActivity {
         usuarios.put("Telefone", telefone);
         usuarios.put("Email", email);
         usuarios.put("Senha", senha);
+        usuarios.put("BooleanModalProgresso", prevStarted);
 
         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

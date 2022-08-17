@@ -36,7 +36,9 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class TelaProgresso extends AppCompatActivity {
@@ -45,21 +47,11 @@ public class TelaProgresso extends AppCompatActivity {
 
     TextView diasNoApp, qtdCigarros, txtVidaReduzida, dindin;
 
-    String prevStarted = "yes";
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences sharedpreferences = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-        if (!sharedpreferences.getBoolean(prevStarted, false)) {
-            showDialog();
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(prevStarted, Boolean.TRUE);
-            editor.apply();
-        }else {
 
-        }
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +68,47 @@ public class TelaProgresso extends AppCompatActivity {
         qtdCigarrosTotal();
         vidaReduzida();
         calculaDinheiro();
+        bemVindoProgresso();
+
+
     }
+
+
+    public void bemVindoProgresso(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot != null){
+
+                    String start = documentSnapshot.getString("BooleanModalProgresso");
+
+                    if (start.equals("no")){
+                        showDialog();
+                        String prevStarted = "yes";
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        Map<String, Object> booleano = new HashMap<>();
+                        booleano.put("BooleanModalProgresso", prevStarted);
+
+                        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        DocumentReference ns = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+                        ns.set(booleano);
+
+                    }
+
+
+                }
+            }
+        });
+
+    }
+
 
     public void setarDias(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -92,7 +124,7 @@ public class TelaProgresso extends AppCompatActivity {
 
                     LocalDate dataAtual = LocalDate.now();
                     System.out.println(dataAtual);
-                    int tempoApp = dataAtual.getDayOfYear() - dataDeCadastro.getDayOfYear();
+                    int tempoApp = (dataAtual.getDayOfYear() - dataDeCadastro.getDayOfYear())+1;
                     diasNoApp.setText("Dia " + tempoApp);
                 }
             }
@@ -122,14 +154,18 @@ public class TelaProgresso extends AppCompatActivity {
                             if (documentSnapshot != null){
                                 float totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
 
-                                float precoCigarroUni = valorMacoCigarro / 20;
-                                float mediaGasto = precoCigarroUni * cigarrosFumadosPorDia;
-                                float valorGasto = precoCigarroUni * totalCigarrosFumados;
-                                int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
-                                float dinheiroEconomizado = valorGasto - (tempoApp * mediaGasto);
+//                                float precoCigarroUni = valorMacoCigarro / 20;
+//                                float mediaGasto = precoCigarroUni * cigarrosFumadosPorDia;
+//                                float valorGasto = precoCigarroUni * totalCigarrosFumados;
+//                                int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
+//                                float dinheiroEconomizado = valorGasto - (tempoApp * mediaGasto);
 
-                                ;
-                               dindin.setText(NumberFormat.getCurrencyInstance().format(dinheiroEconomizado));
+                                long precoCigarroUni = valorMacoCigarro / 20;
+c
+                                double valorGasto = precoCigarroUni * totalCigarrosFumados;
+                                System.out.println("gastos"+valorGasto);
+
+                               dindin.setText(NumberFormat.getCurrencyInstance().format(valorGasto));
                             }
                         }
                     });
