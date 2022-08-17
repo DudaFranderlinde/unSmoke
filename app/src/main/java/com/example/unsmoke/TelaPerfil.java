@@ -30,6 +30,9 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TelaPerfil extends AppCompatActivity {
 
     TextView nomeUsu;
@@ -121,6 +124,8 @@ public class TelaPerfil extends AppCompatActivity {
                 }
             }
         });
+
+        setarInfoTelaPerfil();
     }
 
     public void editarInformacoes(View e){
@@ -140,4 +145,34 @@ public class TelaPerfil extends AppCompatActivity {
         finish();
     }
 
+    public void mandarInfoBD(View b){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        String tipoDoFumo = tipoFumo.getText().toString();
+        String marcaDoFumo = marcaFumo.getText().toString();
+
+        Map<String, Object> infoFumo = new HashMap<>();
+        infoFumo.put("Tipos de fumos utilizados", tipoDoFumo);
+        infoFumo.put("Marcas de fumos utilizados", marcaDoFumo);
+
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais").collection("Informações de fumo da tela de perfil").document("Informações");
+        documentReference.set(infoFumo);
+    }
+
+    public void setarInfoTelaPerfil(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais").collection("Informações de fumo da tela de perfil").document("Informações");
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot != null){
+                    tipoFumo.setText(documentSnapshot.getString("Tipos de fumos utilizados"));
+                    marcaFumo.setText(documentSnapshot.getString("Marcas de fumos utilizados"));
+                }
+            }
+        });
+    }
 }

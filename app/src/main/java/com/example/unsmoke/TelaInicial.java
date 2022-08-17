@@ -29,7 +29,6 @@ import java.util.Map;
 
 public class TelaInicial extends AppCompatActivity {
 
-    CheckBox checkMeta;
     TextView qntdDiaria, qntdMensal, qntdTotal;
 
     @Override
@@ -39,7 +38,6 @@ public class TelaInicial extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
-        checkMeta = findViewById(R.id.checkMeta);
         qntdDiaria = findViewById(R.id.qntdDiaria);
         qntdMensal = findViewById(R.id.qntdMensal);
         qntdTotal = findViewById(R.id.qntdTotal);

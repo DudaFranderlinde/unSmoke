@@ -20,35 +20,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/boxMetas"
-        android:layout_width="0dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:autofillHints=""
-        android:background="@drawable/container_components"
-        android:editable="false"
-        android:ems="10"
-        android:inputType="none"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.50"
-        tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck" />
-
-    <EditText
         android:id="@+id/cigarroDia4"
         android:layout_width="0dp"
         android:layout_height="237dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:autofillHints=""
         android:background="@drawable/container_components"
         android:editable="false"
         android:ems="10"
@@ -109,37 +86,16 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:fontFamily="@font/arbutus_slab"
         android:text="@string/clique_aqui_ao_fumar"
         android:textColor="#573512"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boxMetas" />
-
-    <CheckBox
-        android:id="@+id/checkMeta"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="20dp"
-        android:buttonTint="@color/bege_pastel"
-        android:clickable="false"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/n_o_fumar_durante_1_dia"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/boxMetas"
-        app:layout_constraintEnd_toEndOf="@+id/boxMetas"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/boxMetas"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.0"
-        tools:ignore="TouchTargetSizeCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/button3"
@@ -155,28 +111,12 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/metas"
-        android:textColor="#FEFAE0"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/boxMetas"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/boxMetas"
-        app:layout_constraintTop_toTopOf="@+id/boxMetas" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         android:contentDescription="@string/botao_fumar"
         android:onClick="irRegistrarFumo"
         app:layout_constraintBottom_toTopOf="@+id/cigarroDia4"
