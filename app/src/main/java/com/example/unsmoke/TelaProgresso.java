@@ -85,6 +85,13 @@ public class TelaProgresso extends AppCompatActivity {
                 if (documentSnapshot != null){
 
                     String start = documentSnapshot.getString("BooleanModalProgresso");
+                    String dataCadastro = documentSnapshot.getString("Data de cadastro");
+                    String nome = documentSnapshot.getString("Nome");
+                    String telefone = documentSnapshot.getString("Telefone");
+                    String email = documentSnapshot.getString("Email");
+                    String senha = documentSnapshot.getString("Senha");
+
+
 
                     if (start.equals("no")){
                         showDialog();
@@ -92,13 +99,18 @@ public class TelaProgresso extends AppCompatActivity {
 
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                        Map<String, Object> booleano = new HashMap<>();
-                        booleano.put("BooleanModalProgresso", prevStarted);
+                        Map<String, Object> usuarios = new HashMap<>();
+                        usuarios.put("Data de cadastro", dataCadastro);
+                        usuarios.put("Nome", nome);
+                        usuarios.put("Telefone", telefone);
+                        usuarios.put("Email", email);
+                        usuarios.put("Senha", senha);
+                        usuarios.put("BooleanModalProgresso", prevStarted);
 
                         usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                         DocumentReference ns = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
-                        ns.set(booleano);
+                        ns.set(usuarios);
 
                     }
 
@@ -142,30 +154,18 @@ public class TelaProgresso extends AppCompatActivity {
                 if (documentSnapshot.exists()){
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
-                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-                    LocalDate dataDeCadastro = LocalDate.parse(dataCadastro, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
-                    LocalDate dataAtual = LocalDate.now();
 
                     DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
                     dR.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                             if (documentSnapshot != null){
-                                float totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
-
-//                                float precoCigarroUni = valorMacoCigarro / 20;
-//                                float mediaGasto = precoCigarroUni * cigarrosFumadosPorDia;
-//                                float valorGasto = precoCigarroUni * totalCigarrosFumados;
-//                                int tempoApp = dataDeCadastro.getDayOfYear() - dataAtual.getDayOfYear();
-//                                float dinheiroEconomizado = valorGasto - (tempoApp * mediaGasto);
-
-                                long precoCigarroUni = valorMacoCigarro / 20;
-c
+                                int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
+                                System.out.println(totalCigarrosFumados);
+                                double precoCigarroUni =( (float) valorMacoCigarro / 20);
                                 double valorGasto = precoCigarroUni * totalCigarrosFumados;
-                                System.out.println("gastos"+valorGasto);
 
-                               dindin.setText(NumberFormat.getCurrencyInstance().format(valorGasto));
+                               dindin.setText("R$:"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
                             }
                         }
                     });

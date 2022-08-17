@@ -145,7 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/arbutus_slab"
-        android:text="@string/dinheiro_economizado"
+        android:text="@string/dinheiro_gasto"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView24"

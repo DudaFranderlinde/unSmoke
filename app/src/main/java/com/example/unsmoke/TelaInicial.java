@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,8 +100,28 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void irTelaProgresso(View i){
-        Intent irTelaProgresso = new Intent(this, TelaProgresso.class);
-        startActivity(irTelaProgresso);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo");
+        dr.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                System.out.println("entrou");
+                DocumentSnapshot documentSnapshot = task.getResult();
+
+                if(!documentSnapshot.exists()){
+
+                    Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+                    startActivity(irTelaProgresso);
+                }else{
+                    Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+        });
+
     }
 
     public void irPerfil(View ip){
