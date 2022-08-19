@@ -173,7 +173,7 @@ public class TelaProgresso extends AppCompatActivity {
                                     double precoCigarroUni =( (float) valorMacoCigarro / 20);
                                     double valorGasto = precoCigarroUni * totalCigarrosFumados;
 
-                                    dindin.setText("R$:"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
+                                    dindin.setText("R$"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
                                 }
                             }catch (Exception e){
                                 Intent vai = new Intent(TelaProgresso.this, TelaInicial.class);
