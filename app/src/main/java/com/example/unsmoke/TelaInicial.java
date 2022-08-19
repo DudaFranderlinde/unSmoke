@@ -22,6 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -47,14 +49,12 @@ public class TelaInicial extends AppCompatActivity {
         popularQntdDiaria();
         popularQntdMensal();
         popularQntdTotal();
-
     }
 
     public void mostrarBottomSheet(){
-
         String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -62,13 +62,11 @@ public class TelaInicial extends AppCompatActivity {
                 DocumentSnapshot ds = task.getResult();
 
                 if(ds.exists()){
-
                     int cigarrosPorDiaMedia = Math.toIntExact((Long) ds.getData().get("Cigarros por dia"));
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
                     Date data = new Date(); // Pega a data atual
                     String dataAtual = sdf.format(data);
-
 
                     FirebaseFirestore dB = FirebaseFirestore.getInstance();
                     DocumentReference documentR = dB.collection("Usuarios")
@@ -80,11 +78,9 @@ public class TelaInicial extends AppCompatActivity {
 
                     documentR.get().addOnCompleteListener(task1 -> {
                         if(task1.isSuccessful()){
-
                             DocumentSnapshot dS = task1.getResult();
 
                             if(dS.exists()){
-
                                 int nCigarrosDiarios = Math.toIntExact((Long) dS.getData().get("Total de fumos"));
 
                                 if (nCigarrosDiarios > cigarrosPorDiaMedia){
@@ -105,23 +101,14 @@ public class TelaInicial extends AppCompatActivity {
 
         DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo");
         dr.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                System.out.println("entrou");
-                DocumentSnapshot documentSnapshot = task.getResult();
-
-                if(!documentSnapshot.exists()){
-
-                    Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-                    startActivity(irTelaProgresso);
-                }else{
-                    Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
-                }
-
-
+            if (!task.isSuccessful()) {
+                Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
             }
-
+            else{
+                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+                startActivity(irTelaProgresso);
+            }
         });
-
     }
 
     public void irPerfil(View ip){
@@ -135,8 +122,8 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void popularQntdDiaria(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        Date data = new Date(); // Pega a data atual
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date data = new Date();
         String dataAtual = sdf.format(data);
 
         String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -187,8 +174,8 @@ public class TelaInicial extends AppCompatActivity {
 
                 if(ds.exists()){
 
-                    int nCigarrosDiarios = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
-                    String nCigarrosDiariosOF = Integer.toString(nCigarrosDiarios);
+                    int nCigarrosMensais = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
+                    String nCigarrosDiariosOF = Integer.toString(nCigarrosMensais);
                     qntdMensal.setText(nCigarrosDiariosOF);
                 }
             }
@@ -213,8 +200,8 @@ public class TelaInicial extends AppCompatActivity {
 
                 if(ds.exists()){
 
-                    int nCigarrosDiarios = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
-                    String nCigarrosDiariosOF = Integer.toString(nCigarrosDiarios);
+                    int nCigarrosTotais = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
+                    String nCigarrosDiariosOF = Integer.toString(nCigarrosTotais);
                     qntdTotal.setText(nCigarrosDiariosOF);
                 }
             }

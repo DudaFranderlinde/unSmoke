@@ -5,7 +5,11 @@ import static java.lang.Integer.parseInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +18,18 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -69,8 +79,6 @@ public class TelaProgresso extends AppCompatActivity {
         vidaReduzida();
         calculaDinheiro();
         bemVindoProgresso();
-
-
     }
 
 
@@ -121,7 +129,6 @@ public class TelaProgresso extends AppCompatActivity {
 
     }
 
-
     public void setarDias(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -143,7 +150,7 @@ public class TelaProgresso extends AppCompatActivity {
         });
     }
 
-    public void calculaDinheiro( ){
+    public void calculaDinheiro(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
@@ -159,13 +166,21 @@ public class TelaProgresso extends AppCompatActivity {
                     dR.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                            if (documentSnapshot != null){
-                                int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
-                                System.out.println(totalCigarrosFumados);
-                                double precoCigarroUni =( (float) valorMacoCigarro / 20);
-                                double valorGasto = precoCigarroUni * totalCigarrosFumados;
+                            try {
+                                if (documentSnapshot != null){
+                                    int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
+                                    System.out.println(totalCigarrosFumados);
+                                    double precoCigarroUni =( (float) valorMacoCigarro / 20);
+                                    double valorGasto = precoCigarroUni * totalCigarrosFumados;
 
-                               dindin.setText("R$:"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
+                                    dindin.setText("R$:"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
+                                }
+                            }catch (Exception e){
+                                Intent vai = new Intent(TelaProgresso.this, TelaInicial.class);
+//                                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.transicao_sair, R.anim.mover_direita);
+//                                    ActivityCompat.startActivity(TelaProgresso.this, vai, activityOptionsCompat.toBundle());
+                                startActivity(vai);
+                                Toast.makeText(TelaProgresso.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
