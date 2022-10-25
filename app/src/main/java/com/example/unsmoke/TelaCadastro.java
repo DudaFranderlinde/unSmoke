@@ -32,7 +32,7 @@ public class TelaCadastro extends AppCompatActivity {
 
     EditText nomeCadastro, sobrenomeCadastro, telefoneCadastro, emailCadastro, senhaCadastro, repeteSenha;
     Button continuar;
-    String usuarioID;
+    CheckBox checkUso;
 
     DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDate data = LocalDate.now();
@@ -56,6 +56,7 @@ public class TelaCadastro extends AppCompatActivity {
         senhaCadastro = findViewById(R.id.senhaCadastro);
         repeteSenha = findViewById(R.id.repeteSenha);
         continuar = findViewById(R.id.btnContinuar);
+        checkUso = findViewById(R.id.checkUso);
     }
 
     public void verificarPreenchimento(View v){
@@ -84,8 +85,15 @@ public class TelaCadastro extends AppCompatActivity {
         else if (confirmSenha.length() < 8){
             repeteSenha.setError("Você deve confirmar a sua senha corretamente!");
         }
-        else if(senha.equals(confirmSenha)){
-            CadastrarUsuario(email, senha, v);
+        else if(checkUso.isChecked()){
+            if (senha.equals(confirmSenha)){
+                CadastrarUsuario(email, senha, v);
+            } else {
+                repeteSenha.setError("As senhas não batem!");
+            }
+        }
+        else {
+            checkUso.setError("Você deve concordar com os termos para continuar!");
         }
     }
 
