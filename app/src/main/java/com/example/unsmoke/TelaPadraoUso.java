@@ -36,6 +36,10 @@ public class TelaPadraoUso extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
+        iniciarComponentes();
+    }
+
+    private void iniciarComponentes(){
         cigarroDia = findViewById(R.id.cigarroDia);
         precoMaco = findViewById(R.id.precoMaco);
         tempoCigarro = findViewById(R.id.tempoCigarro);
