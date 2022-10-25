@@ -32,12 +32,16 @@ public class TelaLogin extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
+        iniciarComponentes();
+
+//        Intent irDireto = new Intent(this, TelaCadastro.class);
+//        startActivity(irDireto);
+    }
+
+    public void iniciarComponentes(){
         mostrarSenhaLogin = findViewById(R.id.mostrarSenhaLogin);
         emailLogin = findViewById(R.id.emailLogin);
         senhaLogin = findViewById(R.id.senhaLogin);
-
-        Intent irDireto = new Intent(this, TelaCadastro.class);
-        startActivity(irDireto);
     }
 
     public void AutenticarUsuario(View a){
@@ -46,7 +50,7 @@ public class TelaLogin extends AppCompatActivity {
         String email = emailLogin.getText().toString();
         String senha = senhaLogin.getText().toString();
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        FirebaseHelper.getFirebaseAuth().signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
@@ -95,7 +99,7 @@ public class TelaLogin extends AppCompatActivity {
     }
 
     private void enviarEmail(String email){
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+        FirebaseHelper.getFirebaseAuth().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(getBaseContext(), "Enviamos uma mensagem para o seu email com um link para redefinição da senha", Toast.LENGTH_LONG).show();

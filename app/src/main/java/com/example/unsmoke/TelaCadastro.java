@@ -45,6 +45,10 @@ public class TelaCadastro extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
+        iniciarComponentes();
+    }
+
+    public void iniciarComponentes(){
         nomeCadastro = findViewById(R.id.nomeCadastro);
         sobrenomeCadastro = findViewById(R.id.sobrenomeCadastro);
         telefoneCadastro = findViewById(R.id.telefoneCadastro);
@@ -52,38 +56,44 @@ public class TelaCadastro extends AppCompatActivity {
         senhaCadastro = findViewById(R.id.senhaCadastro);
         repeteSenha = findViewById(R.id.repeteSenha);
         continuar = findViewById(R.id.btnContinuar);
-
-        continuar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(nomeCadastro.getText().length() == 0){
-                    nomeCadastro.setError("Você precisa inserir o seu nome para se cadastrar!");
-                }
-                else if(sobrenomeCadastro.getText().length() == 0){
-                    sobrenomeCadastro.setError("Você precisa inserir o seu sobrenome para continuar!");
-                }
-                else if (emailCadastro.getText().length() < 5){
-                    emailCadastro.setError("Você precisa inserir um email válido!");
-                }
-                else if (senhaCadastro.getText().length() < 8){
-                    senhaCadastro.setError("A sua deve ter pelo menos 8 caracteres!");
-                }
-                else{
-                    CadastrarUsuario(v);
-                }
-            }
-        });
     }
 
-    public void CadastrarUsuario(View v){
-
+    public void verificarPreenchimento(View v){
+        String nome = nomeCadastro.getText().toString();
+        String sobrenome = sobrenomeCadastro.getText().toString();
+        String telefone = telefoneCadastro.getText().toString();
         String email = emailCadastro.getText().toString();
         String senha = senhaCadastro.getText().toString();
+        String confirmSenha = repeteSenha.getText().toString();
+
+        if (nome.length() == 0){
+            nomeCadastro.setError("Você precisa inserir o seu nome para se cadastrar!");
+        }
+        else if (sobrenome.length() == 0){
+            sobrenomeCadastro.setError("Você precisa inserir o seu sobrenome para continuar!");
+        }
+        else if (telefone.length() != 16){
+            telefoneCadastro.setError("Você precisa inserir o seu telefone corretamente!");
+        }
+        else if (email.length() < 5){
+            emailCadastro.setError("Você precisa inserir um email válido!");
+        }
+        else if (senha.length() < 8){
+            senhaCadastro.setError("A sua deve ter pelo menos 8 caracteres!");
+        }
+        else if (confirmSenha.length() < 8){
+            repeteSenha.setError("Você deve confirmar a sua senha corretamente!");
+        }
+        else if(senha.equals(confirmSenha)){
+            CadastrarUsuario(email, senha, v);
+        }
+    }
+
+    public void CadastrarUsuario(String email, String senha, View v){
 
         Intent irTelaContaCriada = new Intent(this, TelaPadraoUso.class);
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        FirebaseHelper.getFirebaseAuth().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
@@ -117,25 +127,23 @@ public class TelaCadastro extends AppCompatActivity {
     private void SalvarDadosUsuario(){
 
         String nome = nomeCadastro.getText().toString();
+        String sobrenome = sobrenomeCadastro.getText().toString();
         String telefone = telefoneCadastro.getText().toString();
         String email = emailCadastro.getText().toString();
         String senha = senhaCadastro.getText().toString();
         String prevStarted = "no";
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> usuario = new HashMap<>();
+        usuario.put("Nome", nome);
+        usuario.put("Sobrenome", sobrenome);
+        usuario.put("Telefone", telefone);
+        usuario.put("Email", email);
+        usuario.put("Senha", senha);
+        usuario.put("Data de cadastro", dataCadastro);
+        usuario.put("BooleanModalProgresso", prevStarted);
 
-        Map<String, Object> usuarios = new HashMap<>();
-        usuarios.put("Data de cadastro", dataCadastro);
-        usuarios.put("Nome", nome);
-        usuarios.put("Telefone", telefone);
-        usuarios.put("Email", email);
-        usuarios.put("Senha", senha);
-        usuarios.put("BooleanModalProgresso", prevStarted);
-
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        DocumentReference ns = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
-        ns.set(usuarios);
+        DocumentReference ns = FirebaseHelper.getFirebaseFirestore().collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
+        ns.set(usuario);
     }
 
 //    public void mostrarSenha(View m) {

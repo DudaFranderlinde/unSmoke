@@ -26,20 +26,21 @@
         <entry key="..\:/Users/barre/AndroidStudioProjects/unSmoke/app/src/main/res/layout/tela_perfil.xml" value="0.5" />
         <entry key="..\:/Users/barre/AndroidStudioProjects/unSmoke/app/src/main/res/layout/tela_progresso.xml" value="0.5" />
         <entry key="..\:/Users/barre/AndroidStudioProjects/unSmoke/app/src/main/res/layout/tela_registro_fumo.xml" value="0.33" />
-        <entry key="..\:/Users/barre/Desktop/unSmoke/app/src/main/res/drawable/container_components.xml" value="0.37864583333333335" />
-        <entry key="..\:/Users/barre/Desktop/unSmoke/app/src/main/res/layout/tela_cadastro.xml" value="0.5" />
-        <entry key="..\:/Users/barre/Desktop/unSmoke/app/src/main/res/layout/tela_login.xml" value="0.33" />
         <entry key="..\:/Users/eduarda_franderlinde/Documents/unSmoke/app/src/main/res/drawable/dialog_bottom_progresso.xml" value="0.19722222222222222" />
         <entry key="..\:/Users/eduarda_franderlinde/Documents/unSmoke/app/src/main/res/drawable/dialog_progresso.xml" value="0.1" />
         <entry key="..\:/Users/eduarda_franderlinde/Documents/unSmoke/app/src/main/res/layout/dialog_progresso.xml" value="0.22" />
         <entry key="..\:/Users/eduarda_franderlinde/Documents/unSmoke/app/src/main/res/layout/tela_progresso.xml" value="0.25" />
+        <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/drawable/caixa_login.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/drawable/container_components.xml" value="0.23229166666666667" />
+        <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/layout/tela_cadastro.xml" value="0.5" />
         <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/layout/tela_inicial.xml" value="0.22" />
+        <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/layout/tela_login.xml" value="0.5" />
         <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/layout/tela_perfil.xml" value="0.33" />
         <entry key="..\:/Users/theo_b_silva/Documents/unSmoke/app/src/main/res/layout/tela_progresso.xml" value="0.75" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
