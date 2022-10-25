@@ -3,7 +3,6 @@ package com.example.unsmoke;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,17 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import java.text.SimpleDateFormat;
-
 public class TelaCadastro extends AppCompatActivity {
 
-    EditText nomeCompleto, telefoneCadastro, emailCadastro, senhaCadastro;
-    CheckBox mostrarSenhaCadastro;
-    Button criarConta;
+    EditText nomeCadastro, sobrenomeCadastro, telefoneCadastro, emailCadastro, senhaCadastro, repeteSenha;
+    Button continuar;
     String usuarioID;
 
     DateTimeFormatter formata = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -50,19 +45,23 @@ public class TelaCadastro extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
-        nomeCompleto = findViewById(R.id.nomeCompleto);
-        telefoneCadastro = findViewById(R.id.telefone);
+        nomeCadastro = findViewById(R.id.nomeCadastro);
+        sobrenomeCadastro = findViewById(R.id.sobrenomeCadastro);
+        telefoneCadastro = findViewById(R.id.telefoneCadastro);
         emailCadastro = findViewById(R.id.emailCadastro);
         senhaCadastro = findViewById(R.id.senhaCadastro);
-        mostrarSenhaCadastro = findViewById(R.id.mostrarSenhaCadastro);
-        criarConta = findViewById(R.id.criarConta);
+        repeteSenha = findViewById(R.id.repeteSenha);
+        continuar = findViewById(R.id.btnContinuar);
 
-        criarConta.setOnClickListener(new View.OnClickListener() {
+        continuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(nomeCompleto.getText().length() == 0){
-                    nomeCompleto.setError("Você precisa inserir o seu nome para se cadastrar!");
+                if(nomeCadastro.getText().length() == 0){
+                    nomeCadastro.setError("Você precisa inserir o seu nome para se cadastrar!");
+                }
+                else if(sobrenomeCadastro.getText().length() == 0){
+                    sobrenomeCadastro.setError("Você precisa inserir o seu sobrenome para continuar!");
                 }
                 else if (emailCadastro.getText().length() < 5){
                     emailCadastro.setError("Você precisa inserir um email válido!");
@@ -117,7 +116,7 @@ public class TelaCadastro extends AppCompatActivity {
 
     private void SalvarDadosUsuario(){
 
-        String nome = nomeCompleto.getText().toString();
+        String nome = nomeCadastro.getText().toString();
         String telefone = telefoneCadastro.getText().toString();
         String email = emailCadastro.getText().toString();
         String senha = senhaCadastro.getText().toString();
@@ -139,11 +138,11 @@ public class TelaCadastro extends AppCompatActivity {
         ns.set(usuarios);
     }
 
-    public void mostrarSenha(View m) {
-        if (mostrarSenhaCadastro.isChecked()){
-            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT);
-        }else{
-            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        }
-    }
+//    public void mostrarSenha(View m) {
+//        if (mostrarSenhaCadastro.isChecked()){
+//            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT);
+//        }else{
+//            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//        }
+//    }
 }

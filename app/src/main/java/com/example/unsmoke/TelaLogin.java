@@ -36,8 +36,8 @@ public class TelaLogin extends AppCompatActivity {
         emailLogin = findViewById(R.id.emailLogin);
         senhaLogin = findViewById(R.id.senhaLogin);
 
-//        Intent irDireto = new Intent(this, TelaProgresso.class);
-//        startActivity(irDireto);
+        Intent irDireto = new Intent(this, TelaCadastro.class);
+        startActivity(irDireto);
     }
 
     public void AutenticarUsuario(View a){
@@ -71,8 +71,10 @@ public class TelaLogin extends AppCompatActivity {
     public void mostrarSenha(View m) {
         if (mostrarSenhaLogin.isChecked()){
             senhaLogin.setInputType(InputType.TYPE_CLASS_TEXT);
+            mostrarSenhaLogin.setButtonDrawable(R.drawable.ic_outline_lock_open_24);
         }else{
             senhaLogin.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            mostrarSenhaLogin.setButtonDrawable(R.drawable.ic_outline_lock_24_preto);
         }
     }
 
