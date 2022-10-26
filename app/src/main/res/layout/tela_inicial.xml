@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F30000"
-    android:backgroundTint="#FEFAE0"
+    android:backgroundTint="#F0E9E2"
     tools:context=".TelaInicial">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -14,8 +13,8 @@
         android:layout_height="60dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="45dp"
-        android:src="@drawable/user"
         android:onClick="irPerfil"
+        android:src="@drawable/user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:fontFamily="@font/montserrat_semibold"
+        android:onClick="irTelaProgresso"
         android:text="Progresso"
         android:textColor="#CC4C0C"
         android:textSize="18sp"
-        android:onClick="irTelaProgresso"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

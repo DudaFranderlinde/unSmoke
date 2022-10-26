@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class TelaRegistroFumo extends AppCompatActivity {
 
-    private final String[] lsTiposFumo = new String []{"Tipo de fumo", "Cigarro industrializado", "Narguilé", "Cachimbo", "Charuto", "Cigarro de palha", "Cigarrilha", "Fumo de corda", "Folha de tabaco", "Cigarro de cannabis"};
+    private final String[] lsTiposFumo = new String []{"Opções", "Cigarro industrializado", "Narguilé", "Cachimbo", "Charuto", "Cigarro de palha", "Cigarrilha", "Fumo de corda", "Folha de tabaco", "Cigarro de cannabis"};
     private Spinner spTiposFumo;
 
     EditText duracaoFumo, dataFumo;
