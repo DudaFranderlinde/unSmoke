@@ -7,226 +7,43 @@
     android:backgroundTint="#F0E9E2"
     tools:context=".TelaPerfil">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#543311"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Button"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="25dp" />
 
     <Button
-        android:id="@+id/voltarTela"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="350dp"
-        android:background="#00FFFFFF"
-        android:onClick="voltarParaTelaInicial"
-        app:icon="@drawable/ic_baseline_arrow_back_24"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/toolbar2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/imageView6"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="6dp"
-        app:cardBackgroundColor="#D9D9D9"
-        app:cardCornerRadius="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
-
-        <ImageView
-            android:id="@+id/fotoUsu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/foto_de_perfil_do_usu_rio"
-            android:scaleType="center"
-            android:src="@drawable/ic_baseline_person_outline_24" />
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/nomeUsu"
-        android:layout_width="0dp"
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="@string/nome_do_usu_rio"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textColorHint="#78909C"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+        android:text="Button"
+        tools:layout_editor_absoluteX="208dp"
+        tools:layout_editor_absoluteY="28dp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#D9D9D9"
+        android:src="@drawable/ic_baseline_person_outline_24"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="115dp" />
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="15dp"
-        android:background="#3B4924"
-        android:editable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomeUsu"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="Deprecated" />
-
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/minhas_inform_perfil"
-        android:editable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toTopOf="@+id/textView17"
-        tools:ignore="Deprecated" />
-
-    <TextView
-        android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/tipos_de_fumo_que_voc_utiliza"
-        android:textColor="#FFFFFF"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toTopOf="@+id/textView18" />
-
-    <TextView
-        android:id="@+id/textView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/marcas_de_fumo_que_voc_utiliza"
-        android:textColor="#FFFFFF"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/tipoFumo" />
-
-    <EditText
-        android:id="@+id/tipoFumo"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:background="#00000000"
-        android:clickable="false"
-        android:ems="10"
-        android:enabled="false"
-        android:fontFamily="@font/arbutus_slab"
-        android:gravity="start"
-        android:inputType="textPersonName"
-        android:textColor="@color/bege_pastel"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView19"
-        tools:ignore="LabelFor,SpeakableTextPresentCheck" />
-
-    <EditText
-        android:id="@+id/marcaFumo"
-        android:layout_width="0dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="20dp"
-        android:background="#00FFFFFF"
-        android:editable="false"
-        android:ems="10"
-        android:enabled="false"
-        android:fontFamily="@font/arbutus_slab"
-        android:gravity="start"
-        android:inputType="textPersonName"
-        android:textColor="@color/bege_pastel"
-        app:layout_constraintBottom_toTopOf="@id/editInfo"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView21"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck" />
-
-    <CheckBox
-        android:id="@+id/editInfo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="50dp"
-        android:button="@android:drawable/divider_horizontal_bright"
-        android:fontFamily="sans-serif-medium"
-        android:foreground="@drawable/botao_edit_infor"
-        android:onClick="editarInformacoes"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView18"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/marcaFumo"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageView
-        android:id="@+id/deslogar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="345dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="6dp"
-        android:contentDescription="@string/deslogar"
-        android:onClick="deslogar"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar2"
-        app:layout_constraintStart_toStartOf="@+id/toolbar2"
-        app:layout_constraintTop_toTopOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/logout"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:text="TextView"
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="234dp" />
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="0dp"
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#5F6C37"
-        android:fontFamily="@font/actor"
-        android:onClick="mandarInfoBD"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="Gravar informações"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:cornerRadius="40px"
-        app:layout_constraintBottom_toBottomOf="@+id/textView18"
-        app:layout_constraintEnd_toEndOf="@+id/textView18"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/editInfo"
-        app:strokeColor="@color/black"
-        app:strokeWidth="1dp" />
-
+        android:text="Button"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="651dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
