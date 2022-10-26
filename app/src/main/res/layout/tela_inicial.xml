@@ -8,14 +8,15 @@
     android:backgroundTint="#FEFAE0"
     tools:context=".TelaInicial">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#543311"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/fotoUsuTelaInicial"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/user"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,37 +39,6 @@
         app:layout_constraintVertical_bias="1.0"
         tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck" />
 
-    <Button
-        android:id="@+id/perfil"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="150dp"
-        android:background="#00FFFFFF"
-        android:onClick="irPerfil"
-        app:icon="@drawable/ic_baseline_person_24"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="215dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:gravity="center"
-        android:onClick="irTelaProgresso"
-        android:text="@string/ver_progresso"
-        android:textColor="#FFFFFF"
-        android:textSize="19sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
@@ -86,30 +56,15 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:fontFamily="@font/arbutus_slab"
         android:text="@string/clique_aqui_ao_fumar"
         android:textColor="#573512"
         android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#00FFFFFF"
-        android:onClick="irTelaProgresso"
-        app:icon="@drawable/ic_baseline_stars_24"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -229,5 +184,58 @@
         app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
         app:layout_constraintTop_toBottomOf="@+id/textView30"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:hint="Théo"
+        android:textColor="#075B95"
+        android:textColorHint="#075B95"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fotoUsuTelaInicial"
+        app:layout_constraintTop_toTopOf="@+id/fotoUsuTelaInicial" />
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="Progresso"
+        android:textColor="#CC4C0C"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoUsuTelaInicial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fotoUsuTelaInicial"
+        app:srcCompat="@drawable/trending_up" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="35dp"
+        android:background="#99C5B5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoUsuTelaInicial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

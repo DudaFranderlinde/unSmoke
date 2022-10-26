@@ -34,8 +34,8 @@ public class TelaLogin extends AppCompatActivity {
 
         iniciarComponentes();
 
-        Intent irDireto = new Intent(this, TelaPadraoUso.class);
-        startActivity(irDireto);
+//        Intent irDireto = new Intent(this, TelaInicial.class);
+//        startActivity(irDireto);
     }
 
     public void iniciarComponentes(){
