@@ -10,195 +10,45 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoUsuTelaInicial"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="45dp"
         android:src="@drawable/user"
+        android:onClick="irPerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/cigarroDia4"
-        android:layout_width="0dp"
-        android:layout_height="237dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/container_components"
-        android:editable="false"
-        android:ems="10"
-        android:inputType="none"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/contagem_de_fumo"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
-        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
-        app:layout_constraintTop_toTopOf="@+id/cigarroDia4" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/clique_aqui_ao_fumar"
-        android:textColor="#573512"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
-        android:contentDescription="@string/botao_fumar"
-        android:onClick="irRegistrarFumo"
-        app:layout_constraintBottom_toTopOf="@+id/cigarroDia4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12"
-        app:srcCompat="@drawable/botao_fumar" />
-
-    <TextView
-        android:id="@+id/qntdDiaria"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/caixa_cadastro"
-        android:fontFamily="@font/arbutus_slab"
-        android:inputType="number"
-        android:paddingTop="11dp"
-        android:paddingBottom="11dp"
-        android:textAlignment="center"
-        android:textColor="#E6764A19"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView25"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/qntdMensal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/caixa_cadastro"
-        android:fontFamily="@font/arbutus_slab"
-        android:paddingTop="11dp"
-        android:paddingBottom="11dp"
-        android:textAlignment="center"
-        android:textColor="#E6764A19"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView30"
-        app:layout_constraintTop_toBottomOf="@+id/qntdDiaria" />
-
-    <TextView
-        android:id="@+id/qntdTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/caixa_cadastro"
-        android:fontFamily="@font/arbutus_slab"
-        android:paddingTop="11dp"
-        android:paddingBottom="11dp"
-        android:textAlignment="center"
-        android:textColor="#E6764A19"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cigarroDia4"
-        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView31"
-        app:layout_constraintTop_toBottomOf="@+id/qntdMensal"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="Quantidade diária:"
-        android:textColor="#E6000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="Quantidade mensal:"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
-        app:layout_constraintTop_toBottomOf="@+id/textView25" />
-
-    <TextView
-        android:id="@+id/textView31"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="Quantidade total:"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/cigarroDia4"
-        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
-        app:layout_constraintTop_toBottomOf="@+id/textView30"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="3dp"
         android:fontFamily="@font/montserrat_bold"
         android:hint="Théo"
         android:textColor="#075B95"
         android:textColorHint="#075B95"
-        android:textSize="17sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/fotoUsuTelaInicial"
         app:layout_constraintTop_toTopOf="@+id/fotoUsuTelaInicial" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="3dp"
+        android:onClick="irTelaProgresso"
+        app:layout_constraintBottom_toBottomOf="@+id/fotoUsuTelaInicial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fotoUsuTelaInicial"
+        app:srcCompat="@drawable/trending_up" />
 
     <TextView
         android:id="@+id/textView36"
@@ -208,34 +58,199 @@
         android:fontFamily="@font/montserrat_semibold"
         android:text="Progresso"
         android:textColor="#CC4C0C"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:onClick="irTelaProgresso"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView5"
         app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/fotoUsuTelaInicial"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/fotoUsuTelaInicial"
-        app:srcCompat="@drawable/trending_up" />
-
     <View
         android:id="@+id/view4"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="13dp"
         android:layout_marginEnd="35dp"
         android:background="#99C5B5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fotoUsuTelaInicial" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="Ao fumar, clique no botão abaixo\npara registrar:"
+        android:textAlignment="center"
+        android:textColor="#73B299"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="70dp"
+        android:contentDescription="@string/botao_fumar"
+        android:onClick="irRegistrarFumo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:srcCompat="@drawable/botao_fumar" />
+
+    <View
+        android:id="@+id/view5"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="35dp"
+        android:background="#99C5B5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <EditText
+        android:id="@+id/cigarroDia4"
+        android:layout_width="0dp"
+        android:layout_height="237dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/box_info_telainicial"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="none"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="Deprecated,LabelFor,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/contagem_de_fumo"
+        android:textColor="#075B95"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
+        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
+        app:layout_constraintTop_toTopOf="@+id/cigarroDia4" />
+
+    <TextView
+        android:id="@+id/qntdDiaria"
+        android:layout_width="100dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/box_contagem_de_fumo"
+        android:fontFamily="@font/arbutus_slab"
+        android:inputType="number"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:textAlignment="center"
+        android:textColor="#E6000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cigarroDia4"
+        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
+        app:layout_constraintTop_toBottomOf="@+id/qntdTotal"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/qntdMensal"
+        android:layout_width="100dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/box_contagem_de_fumo"
+        android:fontFamily="@font/arbutus_slab"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:textAlignment="center"
+        android:textColor="#E6000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cigarroDia4"
+        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
+        app:layout_constraintTop_toBottomOf="@+id/qntdTotal"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/qntdTotal"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/box_contagem_de_fumo"
+        android:fontFamily="@font/arbutus_slab"
+        android:paddingTop="11dp"
+        android:paddingBottom="11dp"
+        android:textAlignment="center"
+        android:textColor="#E6000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
+        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
+        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/open_sans"
+        android:text="TOTAL"
+        android:textColor="#041825"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/cigarroDia4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cigarroDia4"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/open_sans"
+        android:text="Mensal"
+        android:textColor="#041825"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/qntdMensal"
+        app:layout_constraintEnd_toEndOf="@+id/qntdMensal"
+        app:layout_constraintStart_toStartOf="@+id/qntdMensal" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/open_sans"
+        android:text="Diário"
+        android:textColor="#041825"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/qntdDiaria"
+        app:layout_constraintEnd_toEndOf="@+id/qntdDiaria"
+        app:layout_constraintStart_toStartOf="@+id/qntdDiaria" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,65 +87,54 @@ public class TelaProgresso extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                if (documentSnapshot != null){
+        documentReference.addSnapshotListener((documentSnapshot, error) -> {
+            if (documentSnapshot != null){
 
-                    String start = documentSnapshot.getString("BooleanModalProgresso");
-                    String dataCadastro = documentSnapshot.getString("Data de cadastro");
-                    String nome = documentSnapshot.getString("Nome");
-                    String telefone = documentSnapshot.getString("Telefone");
-                    String email = documentSnapshot.getString("Email");
-                    String senha = documentSnapshot.getString("Senha");
+                String start = documentSnapshot.getString("BooleanModalProgresso");
+                String dataCadastro = documentSnapshot.getString("Data de cadastro");
+                String nome = documentSnapshot.getString("Nome");
+                String telefone = documentSnapshot.getString("Telefone");
+                String email = documentSnapshot.getString("Email");
+                String senha = documentSnapshot.getString("Senha");
 
+                if (start.equals("no")){
+                    showDialog();
+                    String prevStarted = "yes";
 
+                    FirebaseFirestore db1 = FirebaseFirestore.getInstance();
 
-                    if (start.equals("no")){
-                        showDialog();
-                        String prevStarted = "yes";
+                    Map<String, Object> usuarios = new HashMap<>();
+                    usuarios.put("Data de cadastro", dataCadastro);
+                    usuarios.put("Nome", nome);
+                    usuarios.put("Telefone", telefone);
+                    usuarios.put("Email", email);
+                    usuarios.put("Senha", senha);
+                    usuarios.put("BooleanModalProgresso", prevStarted);
 
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        Map<String, Object> usuarios = new HashMap<>();
-                        usuarios.put("Data de cadastro", dataCadastro);
-                        usuarios.put("Nome", nome);
-                        usuarios.put("Telefone", telefone);
-                        usuarios.put("Email", email);
-                        usuarios.put("Senha", senha);
-                        usuarios.put("BooleanModalProgresso", prevStarted);
-
-                        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        DocumentReference ns = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
-                        ns.set(usuarios);
-
-                    }
-
+                    DocumentReference ns = db1.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+                    ns.set(usuarios);
 
                 }
             }
         });
-
     }
 
     public void setarDias(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
-        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                if (documentSnapshot != null){
+        documentReference.addSnapshotListener((documentSnapshot, error) -> {
+            if (documentSnapshot != null){
 
-                    String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
-                    LocalDate dataDeCadastro = LocalDate.parse(dataCadastro, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
+                LocalDate dataDeCadastro = LocalDate.parse(dataCadastro, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
-                    LocalDate dataAtual = LocalDate.now();
-                    System.out.println(dataAtual);
-                    int tempoApp = (dataAtual.getDayOfYear() - dataDeCadastro.getDayOfYear())+1;
-                    diasNoApp.setText("Dia " + tempoApp);
-                }
+                LocalDate dataAtual = LocalDate.now();
+                System.out.println(dataAtual);
+                int tempoApp = (dataAtual.getDayOfYear() - dataDeCadastro.getDayOfYear())+1;
+                diasNoApp.setText("Dia " + tempoApp);
             }
         });
     }
@@ -163,25 +152,22 @@ public class TelaProgresso extends AppCompatActivity {
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
 
                     DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
-                    dR.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                            try {
-                                if (documentSnapshot != null){
-                                    int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
-                                    System.out.println(totalCigarrosFumados);
-                                    double precoCigarroUni =( (float) valorMacoCigarro / 20);
-                                    double valorGasto = precoCigarroUni * totalCigarrosFumados;
+                    dR.addSnapshotListener((documentSnapshot1, error) -> {
+                        try {
+                            if (documentSnapshot1 != null){
+                                int totalCigarrosFumados = Math.toIntExact((Long) documentSnapshot1.getData().get("Total de fumos"));
+                                System.out.println(totalCigarrosFumados);
+                                double precoCigarroUni =( (float) valorMacoCigarro / 20);
+                                double valorGasto = precoCigarroUni * totalCigarrosFumados;
 
-                                    dindin.setText("R$"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
-                                }
-                            }catch (Exception e){
-                                Intent vai = new Intent(TelaProgresso.this, TelaInicial.class);
+                                dindin.setText("R$"+NumberFormat.getInstance(new Locale("pt", "BR")).format(valorGasto));
+                            }
+                        }catch (Exception e){
+                            Intent vai = new Intent(TelaProgresso.this, TelaInicial.class);
 //                                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.transicao_sair, R.anim.mover_direita);
 //                                    ActivityCompat.startActivity(TelaProgresso.this, vai, activityOptionsCompat.toBundle());
-                                startActivity(vai);
-                                Toast.makeText(TelaProgresso.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_SHORT).show();
-                            }
+                            startActivity(vai);
+                            Toast.makeText(TelaProgresso.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

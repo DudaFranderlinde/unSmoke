@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -30,9 +33,12 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class TelaInicial extends AppCompatActivity {
 
     TextView qntdDiaria, qntdMensal, qntdTotal;
+    CircleImageView fotoUsu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +47,19 @@ public class TelaInicial extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.BLACK);
         getSupportActionBar().hide();
 
-        qntdDiaria = findViewById(R.id.qntdDiaria);
-        qntdMensal = findViewById(R.id.qntdMensal);
-        qntdTotal = findViewById(R.id.qntdTotal);
-
+        iniciarComponentes();
         mostrarBottomSheet();
         popularQntdDiaria();
         popularQntdMensal();
         popularQntdTotal();
+        setarImagemPerfil();
+    }
+
+    private void iniciarComponentes(){
+        qntdDiaria = findViewById(R.id.qntdDiaria);
+        qntdMensal = findViewById(R.id.qntdMensal);
+        qntdTotal = findViewById(R.id.qntdTotal);
+        fotoUsu = findViewById(R.id.fotoUsuTelaInicial);
     }
 
     public void mostrarBottomSheet(){
@@ -96,10 +107,13 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void irTelaProgresso(View i){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo");
+        DocumentReference dr = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Registro de fumo");
+
         dr.get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
@@ -126,27 +140,21 @@ public class TelaInicial extends AppCompatActivity {
         Date data = new Date();
         String dataAtual = sdf.format(data);
 
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios")
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Diários")
                 .document(dataAtual);
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-
-                DocumentSnapshot ds = task.getResult();
-
-                if(ds.exists()){
-
-                    int nCigarrosDiarios = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
-                    String nCigarrosDiariosOF = Integer.toString(nCigarrosDiarios);
-                    qntdDiaria.setText(nCigarrosDiariosOF);
-                }
+        documentReference.addSnapshotListener((snapshot, error) -> {
+            if (snapshot.exists()){
+                int nCigarrosDiarios = Math.toIntExact((Long) snapshot.getData().get("Total de fumos"));
+                String nCigarrosDiariosOF = Integer.toString(nCigarrosDiarios);
+                qntdDiaria.setText(nCigarrosDiariosOF);
+            } else {
+                qntdDiaria.setText("0");
             }
         });
     }
@@ -157,55 +165,55 @@ public class TelaInicial extends AppCompatActivity {
         dataCal.setTime(data);
         String mes = String.valueOf(dataCal.get(Calendar.MONTH));
 
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios")
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Mensais")
                 .document(mes);
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-
-                DocumentSnapshot ds = task.getResult();
-
-                if(ds.exists()){
-
-                    int nCigarrosMensais = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
-                    String nCigarrosDiariosOF = Integer.toString(nCigarrosMensais);
-                    qntdMensal.setText(nCigarrosDiariosOF);
-                }
+        documentReference.addSnapshotListener((snapshot, error) -> {
+            if (snapshot.exists()){
+                int nCigarrosMensais = Math.toIntExact((Long) snapshot.getData().get("Total de fumos"));
+                String nCigarrosDiariosOF = Integer.toString(nCigarrosMensais);
+                qntdMensal.setText(nCigarrosDiariosOF);
+            } else {
+                qntdMensal.setText("0");
             }
         });
     }
 
     public void popularQntdTotal(){
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios")
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Total")
                 .document("Total de fumos");
 
-        documentReference.get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-
-                DocumentSnapshot ds = task.getResult();
-
-                if(ds.exists()){
-
-                    int nCigarrosTotais = Math.toIntExact((Long) ds.getData().get("Total de fumos"));
-                    String nCigarrosDiariosOF = Integer.toString(nCigarrosTotais);
-                    qntdTotal.setText(nCigarrosDiariosOF);
-                }
+        documentReference.addSnapshotListener((snapshot, error) -> {
+            if (snapshot.exists()){
+                int nCigarrosTotais = Math.toIntExact((Long) snapshot.getData().get("Total de fumos"));
+                String nCigarrosDiariosOF = Integer.toString(nCigarrosTotais);
+                qntdTotal.setText(nCigarrosDiariosOF);
+            } else {
+                qntdTotal.setText("0");
             }
         });
+    }
+
+    public void setarImagemPerfil(){
+        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseHelper.getFirebaseStorage().getReference()
+                .child("imagens/Fotos de perfil/" + usuarioID + "/" + usuarioID + ".jpeg")
+                .getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    Picasso.get().load(uri).into(fotoUsu);
+                });
     }
 
 }
