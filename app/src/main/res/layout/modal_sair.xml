@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/modal_sair"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="Tem certeza que deseja sair?"
+        android:textAlignment="center"
+        android:textColor="#075B95"
+        android:textSize="22sp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/naoSair"
+            android:layout_width="100dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="65dp"
+            android:backgroundTint="#FFFFFF"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="Não"
+            android:textAllCaps="false"
+            android:textColor="#0C4C78"
+            android:textSize="19sp"
+            app:cornerRadius="26px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#0C4C78"
+            app:strokeWidth="0.5dp" />
+
+        <Button
+            android:id="@+id/simSair"
+            android:layout_width="100dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="65dp"
+            android:backgroundTint="#075B95"
+            android:fontFamily="@font/open_sans_bold"
+            android:text="Sim"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="19sp"
+            app:cornerRadius="26px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="#345444"
+            app:strokeWidth="0.5dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

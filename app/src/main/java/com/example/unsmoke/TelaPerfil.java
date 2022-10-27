@@ -4,10 +4,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,12 +53,15 @@ public class TelaPerfil extends AppCompatActivity {
 
     TextView nomeUsu;
     String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    Button btnSair;
 
     private CircleImageView fotoUsu;
     private static final int REQUEST_GALERIA = 100;
     private String caminhoImagem;
     private Bitmap imagem;
 
+    BottomSheetDialog dialog;
+    Dialog dialogMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +72,42 @@ public class TelaPerfil extends AppCompatActivity {
 
         nomeUsu = findViewById(R.id.nomeUsu);
         fotoUsu = findViewById(R.id.fotoUsu);
+        btnSair = findViewById(R.id.btnSair);
 
-        fotoUsu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pegarImagemGaleria();
-            }
-        });
+        fotoUsu.setOnClickListener(v -> pegarImagemGaleria());
 
         setarImagemPerfil();
+
+        dialog = new BottomSheetDialog(this);
+        mostrarCard();
+
+        dialogMenu = new Dialog(this);
+
+        btnSair.setOnClickListener(view -> dialog.show());
+    }
+
+    private void mostrarCard(){
+        View view = getLayoutInflater().inflate(R.layout.modal_sair, null, false);
+
+        Button naoSair = view.findViewById(R.id.naoSair);
+        naoSair.setOnClickListener((View.OnClickListener) view12 -> {
+            dialog.dismiss();
+        });
+
+        Button simSair = view.findViewById(R.id.simSair);
+        simSair.setOnClickListener(view1 -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent i = new Intent (TelaPerfil.this, TelaLogin.class);
+            startActivity(i);
+            finish();
+        });
+
+        dialog.setContentView(view);
+    }
+
+    private void openModal(){
+        dialogMenu.setContentView(R.layout.modal_sair);
+        dialogMenu.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     public void verificaPermissaoGaleria(View view){
@@ -197,13 +230,6 @@ public class TelaPerfil extends AppCompatActivity {
 //            marcaFumo.setEnabled(false);
 //        }
 //    }
-
-    public void deslogar(View d){
-        FirebaseAuth.getInstance().signOut();
-        Intent i = new Intent (TelaPerfil.this, TelaLogin.class);
-        startActivity(i);
-        finish();
-    }
 
 //    public void mandarInfoBD(View b){
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
