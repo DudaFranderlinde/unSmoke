@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -47,7 +48,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
     String usuarioID;
 
     int registraCigarro;
-    ArrayList<String> tiposFumo = new ArrayList<>();
+    ArrayList<String> tiposFumo = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,6 @@ public class TelaRegistroFumo extends AppCompatActivity {
             duracaoFumo.setError("Insira um valor válido!");
         }else{
             mandarRegistroBD();
-            mandaTipoCigarro();
         }
     }
 
@@ -124,6 +124,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         mandarBDCigarFumInicialMes();
         mandarBDCigarFumInicialTotal1();
         mandarBDCigarFumInicialTotal2();
+//        mandaTipoCigarro();
     }
 
     public void mandarBDCigarrosFumadosInicialData(){
@@ -503,21 +504,19 @@ public class TelaRegistroFumo extends AppCompatActivity {
         startActivity(voltarParaTelaInicial);
     }
 
-    public void mandaTipoCigarro(){
+    public void mandaTipoCigarro(View d){
         String tipo = spTiposFumo.getSelectedItem().toString();
-        DatabaseReference reference = FirebaseHelper.getFirebaseDatabase().getReference()
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference()
                 .child("Usuarios")
                 .child(FirebaseHelper.getUIDUsuario())
                 .child("Tipos de fumo");
 
-
         if (tiposFumo.contains(tipo)){
-            return;
-        } else if (!tiposFumo.contains(tipo)){
+            System.out.println(tiposFumo);
+        } else {
+            System.out.println(tiposFumo);
             tiposFumo.add(tipo);
-            Map<String, Object> tiposTodosCigarros = new HashMap<>();
-            tiposTodosCigarros.put("Tipos de fumo", tiposFumo);
-            documentReference.set(tiposTodosCigarros);
+            reference1.setValue(tipo);
         }
     }
 }
