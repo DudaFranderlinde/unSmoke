@@ -1,6 +1,7 @@
 package com.example.unsmoke;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 
@@ -10,6 +11,7 @@ public class FirebaseHelper {
     private static FirebaseFirestore firebaseFirestore;
     private static String UIDUsuario;
     private static FirebaseStorage firebaseStorage;
+    private static FirebaseDatabase firebaseDatabase;
 
     public static FirebaseAuth getFirebaseAuth(){
         if (firebaseAuth == null){
@@ -38,4 +40,11 @@ public class FirebaseHelper {
         };
         return firebaseStorage;
     };
+
+    public static FirebaseDatabase getFirebaseDatabase(){
+        if (firebaseDatabase == null){
+            firebaseDatabase = FirebaseDatabase.getInstance();
+        };
+        return firebaseDatabase;
+    }
 }

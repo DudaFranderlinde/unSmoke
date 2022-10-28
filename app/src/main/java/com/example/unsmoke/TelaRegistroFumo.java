@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -30,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -45,6 +47,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
     String usuarioID;
 
     int registraCigarro;
+    ArrayList<String> tiposFumo = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +85,12 @@ public class TelaRegistroFumo extends AppCompatActivity {
             TextView errorText = (TextView)spTiposFumo.getSelectedView();
             errorText.setError("anything here, just to add the icon");
             errorText.setTextColor(Color.RED);//just to highlight that this is an error
-            errorText.setText("Selecione um sexo válido");
+            errorText.setText("Selecione um tipo de fumo");
         }else if(duracao.length() == 0){
             duracaoFumo.setError("Insira um valor válido!");
         }else{
             mandarRegistroBD();
+            mandaTipoCigarro();
         }
     }
 
@@ -497,5 +501,23 @@ public class TelaRegistroFumo extends AppCompatActivity {
     public void voltarParaTelaInicial(View w){
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
+    }
+
+    public void mandaTipoCigarro(){
+        String tipo = spTiposFumo.getSelectedItem().toString();
+        DatabaseReference reference = FirebaseHelper.getFirebaseDatabase().getReference()
+                .child("Usuarios")
+                .child(FirebaseHelper.getUIDUsuario())
+                .child("Tipos de fumo");
+
+
+        if (tiposFumo.contains(tipo)){
+            return;
+        } else if (!tiposFumo.contains(tipo)){
+            tiposFumo.add(tipo);
+            Map<String, Object> tiposTodosCigarros = new HashMap<>();
+            tiposTodosCigarros.put("Tipos de fumo", tiposFumo);
+            documentReference.set(tiposTodosCigarros);
+        }
     }
 }
