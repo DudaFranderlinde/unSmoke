@@ -28,12 +28,12 @@ public class TelaLogin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_login);
-        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setStatusBarColor(Color.rgb(12, 76, 120));
         getSupportActionBar().hide();
 
         iniciarComponentes();
 
-//        Intent irDireto = new Intent(this, TelaInicial.class);
+//        Intent irDireto = new Intent(this, TelaSemRegistro.class);
 //        startActivity(irDireto);
     }
 

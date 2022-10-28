@@ -66,7 +66,7 @@ public class TelaProgresso extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_progresso);
-        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setStatusBarColor(Color.rgb(12, 76, 120));
         getSupportActionBar().hide();
 
         diasNoApp = findViewById(R.id.diasNoApp);

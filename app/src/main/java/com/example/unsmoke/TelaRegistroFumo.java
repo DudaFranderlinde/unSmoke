@@ -54,7 +54,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_registro_fumo);
-        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setStatusBarColor(Color.rgb(12, 76, 120));
         getSupportActionBar().hide();
 
         spTiposFumo = (Spinner) findViewById(R.id.spTipoFumo);

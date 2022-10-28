@@ -1,5 +1,6 @@
 package com.example.unsmoke;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,7 +34,7 @@ public class TelaInicial extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_inicial);
-        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setStatusBarColor(Color.rgb(12, 76, 120));
         getSupportActionBar().hide();
 
         iniciarComponentes();
@@ -101,14 +104,23 @@ public class TelaInicial extends AppCompatActivity {
                 .collection(FirebaseHelper.getUIDUsuario())
                 .document("Registro de fumo");
 
-        dr.get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
-            }
-            else{
-                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-                startActivity(irTelaProgresso);
-            }
+//        dr.get().addOnCompleteListener(task -> {
+//            if (!task.isSuccessful()) {
+//                Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
+//            }
+//            else{
+//                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+//                startActivity(irTelaProgresso);
+//            }
+//        });
+
+        dr.get().addOnSuccessListener(documentSnapshot -> {
+            Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+            startActivity(irTelaProgresso);
+        });
+        dr.get().addOnFailureListener(e -> {
+            Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+            startActivity(irTelaSemRegistro);
         });
     }
 

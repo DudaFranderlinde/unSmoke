@@ -67,7 +67,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="95dp"
         android:background="@drawable/caixa_progresso"
         android:editable="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +81,7 @@
         android:id="@+id/imageView10"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/s_mbolo_quantidade_de_cigarros"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
@@ -91,7 +91,7 @@
     <TextView
         android:id="@+id/qtdCigarros"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
         android:hint="25"
@@ -144,8 +144,7 @@
     <TextView
         android:id="@+id/txtVidaReduzida"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_height="30dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
         android:hint="5d 3h 23m"
@@ -159,19 +158,20 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginTop="15dp"
         android:contentDescription="@string/s_mbolo_tempo_de_vida_reduzido"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:srcCompat="@drawable/ic_baseline_favorite_24" />
+        app:srcCompat="@drawable/coracao" />
 
     <TextView
         android:id="@+id/textView28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/montserrat_semibold"
         android:text="@string/dinheiro_gasto"
         android:textColor="#075B95"
@@ -180,24 +180,23 @@
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/dinheiro"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginTop="15dp"
         android:contentDescription="@string/s_mbolo_dinheiro_economizado"
         app:layout_constraintEnd_toEndOf="@+id/textView24"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:srcCompat="@drawable/ic_baseline_attach_money_24" />
+        app:srcCompat="@drawable/dinheiro" />
 
     <TextView
         android:id="@+id/dinheiro"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_height="30dp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
         android:hint="R$ 68,20"
