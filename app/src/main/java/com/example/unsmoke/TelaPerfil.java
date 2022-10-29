@@ -52,7 +52,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TelaPerfil extends AppCompatActivity {
 
     TextView nomeUsu;
-    String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     Button btnSair;
 
     private CircleImageView fotoUsu;
@@ -97,17 +96,12 @@ public class TelaPerfil extends AppCompatActivity {
         Button simSair = view.findViewById(R.id.simSair);
         simSair.setOnClickListener(view1 -> {
             FirebaseAuth.getInstance().signOut();
+            finish();
             Intent i = new Intent (TelaPerfil.this, TelaLogin.class);
             startActivity(i);
-            finish();
         });
 
         dialog.setContentView(view);
-    }
-
-    private void openModal(){
-        dialogMenu.setContentView(R.layout.modal_sair);
-        dialogMenu.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     public void verificaPermissaoGaleria(View view){
@@ -211,7 +205,7 @@ public class TelaPerfil extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null){
                 nomeUsu.setText(documentSnapshot.getString("Nome"));

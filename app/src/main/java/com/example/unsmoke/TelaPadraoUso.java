@@ -27,7 +27,6 @@ import java.util.Map;
 public class TelaPadraoUso extends AppCompatActivity {
 
     EditText cigarroDia, precoMaco, tempoCigarro;
-    String usuarioID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +72,8 @@ public class TelaPadraoUso extends AppCompatActivity {
                 usuarios.put("Minutos levados para fumar 1 cigarro", tempoFumarCigarro);
                 usuarios.put("Data de cadastro inicial", dataAtual);
 
-                usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                DocumentReference ns = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+                DocumentReference ns = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
                 ns.set(usuarios);
 
             } catch (Exception e){

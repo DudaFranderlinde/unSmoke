@@ -1,6 +1,7 @@
 package com.example.unsmoke;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,12 +11,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -53,10 +60,9 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void mostrarBottomSheet(){
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
@@ -72,7 +78,7 @@ public class TelaInicial extends AppCompatActivity {
                     FirebaseFirestore dB = FirebaseFirestore.getInstance();
                     DocumentReference documentR = dB.collection("Usuarios")
                             .document("Dados")
-                            .collection(usuarioID)
+                            .collection(FirebaseHelper.getUIDUsuario())
                             .document("Dados de fumos")
                             .collection("Diários")
                             .document(dataAtual);
@@ -102,25 +108,51 @@ public class TelaInicial extends AppCompatActivity {
                 .collection("Usuarios")
                 .document("Dados")
                 .collection(FirebaseHelper.getUIDUsuario())
-                .document("Registro de fumo");
+                .document("Informações pessoais");
+
 
 //        dr.get().addOnCompleteListener(task -> {
-//            if (!task.isSuccessful()) {
-//                Toast.makeText(TelaInicial.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_LONG).show();
-//            }
-//            else{
+//            DocumentSnapshot snapshot = task.getResult();
+//            Boolean temRegistro = snapshot.getBoolean("Tem registros de cigarro?");
+//
+//            if (temRegistro) {
 //                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
 //                startActivity(irTelaProgresso);
 //            }
+//            else {
+//                Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+//                startActivity(irTelaSemRegistro);
+//            }
 //        });
 
-        dr.get().addOnSuccessListener(documentSnapshot -> {
-            Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-            startActivity(irTelaProgresso);
-        });
-        dr.get().addOnFailureListener(e -> {
-            Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
-            startActivity(irTelaSemRegistro);
+//        dr.get(source).addOnSuccessListener(documentSnapshot -> {
+//            Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+//            startActivity(irTelaProgresso);
+//        }).addOnFailureListener(e -> {
+//            Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+//            startActivity(irTelaSemRegistro);
+//        });
+
+        System.out.println(FirebaseHelper.getUIDUsuario());
+
+        dr.addSnapshotListener((snapshot, error) -> {
+            assert snapshot != null;
+            String temRegistro = snapshot.getBoolean("Tem registros de cigarro?").toString();
+                if(temRegistro.equals("true")){
+                    Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+                    startActivity(irTelaProgresso);
+                } else {
+                    Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+                    startActivity(irTelaSemRegistro);
+                }
+
+//            if (snapshot.exists()){
+//                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+//                startActivity(irTelaProgresso);
+//            } else if (!snapshot.exists()){
+//                Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+//                startActivity(irTelaSemRegistro);
+//            }
         });
     }
 
@@ -205,10 +237,8 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void setarImagemPerfil(){
-        String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         FirebaseHelper.getFirebaseStorage().getReference()
-                .child("imagens/Fotos de perfil/" + usuarioID + "/" + usuarioID + ".jpeg")
+                .child("imagens/Fotos de perfil/" + FirebaseHelper.getUIDUsuario() + "/" + FirebaseHelper.getUIDUsuario() + ".jpeg")
                 .getDownloadUrl()
                 .addOnSuccessListener(uri -> {
                     Picasso.get().load(uri).into(fotoUsu);

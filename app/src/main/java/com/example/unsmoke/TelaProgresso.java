@@ -53,8 +53,6 @@ import java.util.concurrent.TimeUnit;
 
 public class TelaProgresso extends AppCompatActivity {
 
-    String usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     TextView diasNoApp, qtdCigarros, txtVidaReduzida, dindin;
 
     @Override
@@ -86,7 +84,7 @@ public class TelaProgresso extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null){
 
@@ -111,9 +109,7 @@ public class TelaProgresso extends AppCompatActivity {
                     usuarios.put("Senha", senha);
                     usuarios.put("BooleanModalProgresso", prevStarted);
 
-                    usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                    DocumentReference ns = db1.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais");
+                    DocumentReference ns = db1.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
                     ns.set(usuarios);
 
                 }
@@ -124,7 +120,7 @@ public class TelaProgresso extends AppCompatActivity {
     public void setarDias(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null){
 
@@ -142,7 +138,7 @@ public class TelaProgresso extends AppCompatActivity {
     public void calculaDinheiro(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário");
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
         dr.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 DocumentSnapshot documentSnapshot = task.getResult();
@@ -151,7 +147,7 @@ public class TelaProgresso extends AppCompatActivity {
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
                     int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
 
-                    DocumentReference dR = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
+                    DocumentReference dR = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
                     dR.addSnapshotListener((documentSnapshot1, error) -> {
                         try {
                             if (documentSnapshot1 != null){
@@ -177,7 +173,7 @@ public class TelaProgresso extends AppCompatActivity {
 
     public void vidaReduzida( ){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumos").collection("Total").document("Total de fumos");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumos").collection("Total").document("Total de fumos");
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
@@ -212,7 +208,7 @@ public class TelaProgresso extends AppCompatActivity {
 
     public void qtdCigarrosTotal(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Dados de fumos").collection("Total").document("Total de fumos");
+        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumos").collection("Total").document("Total de fumos");
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 

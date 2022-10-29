@@ -45,7 +45,6 @@ public class TelaRegistroFumo extends AppCompatActivity {
     private Spinner spTiposFumo;
 
     EditText duracaoFumo, dataFumo;
-    String usuarioID;
 
     int registraCigarro;
     ArrayList<String> tiposFumo = new ArrayList<String>();
@@ -91,6 +90,14 @@ public class TelaRegistroFumo extends AppCompatActivity {
             duracaoFumo.setError("Insira um valor válido!");
         }else{
             mandarRegistroBD();
+
+            DocumentReference dr = FirebaseHelper.getFirebaseFirestore()
+                    .collection("Usuarios")
+                    .document("Dados")
+                    .collection(FirebaseHelper.getUIDUsuario())
+                    .document("Informações pessoais");
+
+            dr.update("Tem registros de cigarro?", true);
         }
     }
 
@@ -106,8 +113,6 @@ public class TelaRegistroFumo extends AppCompatActivity {
         DateTimeFormatter formatterHora = DateTimeFormatter.ofPattern("HH:mm:ss");
         String horaFormatada = formatterHora.format(dataHora);
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         String tipo = spTiposFumo.getSelectedItem().toString();
         String duracao = duracaoFumo.getText().toString();
 
@@ -117,7 +122,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         registroFumo.put("Tipo de fumo", tipo);
         registroFumo.put("Duração (minutos)", duracao);
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Registro de fumo").collection(dataAtual).document(horaFormatada);
+        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Registro de fumo").collection(dataAtual).document(horaFormatada);
         dr.set(registroFumo);
 
         mandarBDCigarrosFumadosInicialData();
@@ -134,12 +139,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
         LocalDate data = LocalDate.now();
         String dataAtual = data.format(formata);
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Diários")
                 .document(dataAtual);
@@ -167,7 +171,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
                         DocumentReference documentReference = db
                                 .collection("Usuarios")
                                 .document("Dados")
-                                .collection(usuarioID)
+                                .collection(FirebaseHelper.getUIDUsuario())
                                 .document("Dados de fumos")
                                 .collection("Diários")
                                 .document(dataAtual);
@@ -192,11 +196,10 @@ public class TelaRegistroFumo extends AppCompatActivity {
         LocalDate data = LocalDate.now();
         String dataAtual = data.format(formata);
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Diários")
                 .document(dataAtual);
@@ -236,12 +239,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
         dataCal.setTime(data);
         String mes = String.valueOf(dataCal.get(Calendar.MONTH));
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Mensais")
                 .document(mes);
@@ -269,7 +271,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
                         DocumentReference documentReference = db
                                 .collection("Usuarios")
                                 .document("Dados")
-                                .collection(usuarioID)
+                                .collection(FirebaseHelper.getUIDUsuario())
                                 .document("Dados de fumos")
                                 .collection("Mensais")
                                 .document(mes);
@@ -293,12 +295,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
         dataCal.setTime(data);
         String mes = String.valueOf(dataCal.get(Calendar.MONTH));
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Mensais")
                 .document(mes);
@@ -332,12 +333,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
     public void mandarBDCigarFumInicialTotal1(){
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
 
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Total")
                 .document("Total de fumos");
@@ -365,7 +365,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
                         DocumentReference documentReference = db
                                 .collection("Usuarios")
                                 .document("Dados")
-                                .collection(usuarioID)
+                                .collection(FirebaseHelper.getUIDUsuario())
                                 .document("Dados de fumos")
                                 .collection("Total")
                                 .document("Total de fumos");
@@ -383,12 +383,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
     }
 
     public void retornaInicioEaddFumoTotal1(){
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumos")
                 .collection("Total")
                 .document("Total de fumos");
@@ -420,12 +419,11 @@ public class TelaRegistroFumo extends AppCompatActivity {
     }
 
     public void mandarBDCigarFumInicialTotal2(){
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumo diário")
                 .collection("Total de cigarros fumados")
                 .document("Total de cigarros fumados");
@@ -453,7 +451,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
                         DocumentReference documentReference = db
                                 .collection("Usuarios")
                                 .document("Dados")
-                                .collection(usuarioID)
+                                .collection(FirebaseHelper.getUIDUsuario())
                                 .document("Dados de fumo diário")
                                 .collection("Total de cigarros fumados")
                                 .document("Total de cigarros fumados");
@@ -465,35 +463,30 @@ public class TelaRegistroFumo extends AppCompatActivity {
     }
 
     public void retornaInicioEaddFumoTotal2(){
-        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db
                 .collection("Usuarios")
                 .document("Dados")
-                .collection(usuarioID)
+                .collection(FirebaseHelper.getUIDUsuario())
                 .document("Dados de fumo diário")
                 .collection("Total de cigarros fumados")
                 .document("Total de cigarros fumados");
 
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        documentReference.get().addOnCompleteListener(task -> {
 
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if (task.isSuccessful()){
 
-                if (task.isSuccessful()){
+                DocumentSnapshot documentSnapshot = task.getResult();
 
-                    DocumentSnapshot documentSnapshot = task.getResult();
+                if (documentSnapshot.exists()){
 
-                    if (documentSnapshot.exists()){
+                    int totalCigarFumAtual = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
+                    int registraCigarro = ++totalCigarFumAtual;
 
-                        int totalCigarFumAtual = Math.toIntExact((Long) documentSnapshot.getData().get("Total de fumos"));
-                        int registraCigarro = ++totalCigarFumAtual;
+                    Map<String, Object> totalCigarrosFumadosTotal = new HashMap<>();
+                    totalCigarrosFumadosTotal.put("Total de fumos", registraCigarro);
 
-                        Map<String, Object> totalCigarrosFumadosTotal = new HashMap<>();
-                        totalCigarrosFumadosTotal.put("Total de fumos", registraCigarro);
-
-                        documentReference.set(totalCigarrosFumadosTotal);
-                    }
+                    documentReference.set(totalCigarrosFumadosTotal);
                 }
             }
         });

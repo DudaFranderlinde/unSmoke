@@ -149,6 +149,7 @@ public class TelaCadastro extends AppCompatActivity {
         usuario.put("Senha", senha);
         usuario.put("Data de cadastro", dataCadastro);
         usuario.put("BooleanModalProgresso", prevStarted);
+        usuario.put("Tem registros de cigarro?", false);
 
         DocumentReference ns = FirebaseHelper.getFirebaseFirestore().collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
         ns.set(usuario);
