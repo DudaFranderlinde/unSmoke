@@ -95,7 +95,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
                     .collection("Usuarios")
                     .document("Dados")
                     .collection(FirebaseHelper.getUIDUsuario())
-                    .document("Informações pessoais");
+                    .document("Informações boolean");
 
             dr.update("Tem registros de cigarro?", true);
         }

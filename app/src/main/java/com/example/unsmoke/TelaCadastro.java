@@ -153,6 +153,17 @@ public class TelaCadastro extends AppCompatActivity {
 
         DocumentReference ns = FirebaseHelper.getFirebaseFirestore().collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
         ns.set(usuario);
+
+        DocumentReference dr = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Informações boolean");
+
+        Map<String, Object> booleano = new HashMap<>();
+        booleano.put("Tem registros de cigarro?", false);
+
+        dr.set(booleano);
     }
 
 //    public void mostrarSenha(View m) {

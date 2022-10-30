@@ -162,14 +162,9 @@ public class TelaPerfil extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }else{
-                    ImageDecoder.Source source = null;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        source = ImageDecoder.createSource(getBaseContext().getContentResolver(), localImagemSelecionada);
-                    }
+                    ImageDecoder.Source source = ImageDecoder.createSource(getBaseContext().getContentResolver(), localImagemSelecionada);
                     try {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            imagem = ImageDecoder.decodeBitmap(source);
-                        }
+                        imagem = ImageDecoder.decodeBitmap(source);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

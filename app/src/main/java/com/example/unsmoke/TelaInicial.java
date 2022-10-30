@@ -34,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TelaInicial extends AppCompatActivity {
 
-    TextView qntdDiaria, qntdMensal, qntdTotal;
+    TextView qntdDiaria, qntdMensal, qntdTotal, nomeUsuario;
     CircleImageView fotoUsu;
 
     @Override
@@ -50,6 +50,7 @@ public class TelaInicial extends AppCompatActivity {
         popularQntdMensal();
         popularQntdTotal();
         setarImagemPerfil();
+        setarNomeUsu();
     }
 
     private void iniciarComponentes(){
@@ -57,6 +58,7 @@ public class TelaInicial extends AppCompatActivity {
         qntdMensal = findViewById(R.id.qntdMensal);
         qntdTotal = findViewById(R.id.qntdTotal);
         fotoUsu = findViewById(R.id.fotoUsuTelaInicial);
+        nomeUsuario = findViewById(R.id.nomeUsuario);
     }
 
     public void mostrarBottomSheet(){
@@ -108,51 +110,18 @@ public class TelaInicial extends AppCompatActivity {
                 .collection("Usuarios")
                 .document("Dados")
                 .collection(FirebaseHelper.getUIDUsuario())
-                .document("Informações pessoais");
-
-
-//        dr.get().addOnCompleteListener(task -> {
-//            DocumentSnapshot snapshot = task.getResult();
-//            Boolean temRegistro = snapshot.getBoolean("Tem registros de cigarro?");
-//
-//            if (temRegistro) {
-//                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-//                startActivity(irTelaProgresso);
-//            }
-//            else {
-//                Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
-//                startActivity(irTelaSemRegistro);
-//            }
-//        });
-
-//        dr.get(source).addOnSuccessListener(documentSnapshot -> {
-//            Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-//            startActivity(irTelaProgresso);
-//        }).addOnFailureListener(e -> {
-//            Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
-//            startActivity(irTelaSemRegistro);
-//        });
-
-        System.out.println(FirebaseHelper.getUIDUsuario());
+                .document("Informações boolean");
 
         dr.addSnapshotListener((snapshot, error) -> {
             assert snapshot != null;
             String temRegistro = snapshot.getBoolean("Tem registros de cigarro?").toString();
-                if(temRegistro.equals("true")){
-                    Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-                    startActivity(irTelaProgresso);
-                } else {
-                    Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
-                    startActivity(irTelaSemRegistro);
-                }
-
-//            if (snapshot.exists()){
-//                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
-//                startActivity(irTelaProgresso);
-//            } else if (!snapshot.exists()){
-//                Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
-//                startActivity(irTelaSemRegistro);
-//            }
+            if(temRegistro.equals("true")){
+                Intent irTelaProgresso = new Intent(TelaInicial.this, TelaProgresso.class);
+                startActivity(irTelaProgresso);
+            } else {
+                Intent irTelaSemRegistro = new Intent(TelaInicial.this, TelaSemRegistro.class);
+                startActivity(irTelaSemRegistro);
+            }
         });
     }
 
@@ -243,6 +212,20 @@ public class TelaInicial extends AppCompatActivity {
                 .addOnSuccessListener(uri -> {
                     Picasso.get().load(uri).into(fotoUsu);
                 });
+    }
+
+    private void setarNomeUsu(){
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Informações pessoais");
+
+        documentReference.addSnapshotListener((snapshot, error) -> {
+            String nomeUsu = snapshot.getString("Nome");
+
+            nomeUsuario.setText(nomeUsu);
+        });
     }
 
 }

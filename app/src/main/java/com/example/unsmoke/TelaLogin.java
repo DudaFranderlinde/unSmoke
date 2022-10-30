@@ -37,15 +37,15 @@ public class TelaLogin extends AppCompatActivity {
 //        startActivity(irDireto);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (FirebaseHelper.getFirebaseAuth().getCurrentUser() != null){
-            Intent ir = new Intent(this, TelaInicial.class);
-            startActivity(ir);
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        if (FirebaseHelper.getFirebaseAuth().getCurrentUser() != null){
+//            Intent ir = new Intent(this, TelaInicial.class);
+//            startActivity(ir);
+//        }
+//    }
 
     public void iniciarComponentes(){
         mostrarSenhaLogin = findViewById(R.id.mostrarSenhaLogin);
