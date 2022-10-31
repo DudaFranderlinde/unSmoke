@@ -1,65 +1,34 @@
 package com.example.unsmoke;
 
-import static java.lang.Integer.parseInt;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
-import android.transition.AutoTransition;
-import android.transition.Explode;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class TelaProgresso extends AppCompatActivity {
 
     TextView diasNoApp, qtdCigarros, txtVidaReduzida, dindin;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +36,7 @@ public class TelaProgresso extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.rgb(12, 76, 120));
         getSupportActionBar().hide();
 
-        diasNoApp = findViewById(R.id.diasNoApp);
-        qtdCigarros = findViewById(R.id.qtdCigarros);
-        txtVidaReduzida = findViewById(R.id.txtVidaReduzida);
-        dindin = findViewById(R.id.dinheiro);
-
+        iniciarComponentes();
         setarDias();
         qtdCigarrosTotal();
         vidaReduzida();
@@ -79,12 +44,20 @@ public class TelaProgresso extends AppCompatActivity {
         bemVindoProgresso();
     }
 
+    public void iniciarComponentes(){
+        diasNoApp = findViewById(R.id.diasNoApp);
+        qtdCigarros = findViewById(R.id.qtdCigarros);
+        txtVidaReduzida = findViewById(R.id.txtVidaReduzida);
+        dindin = findViewById(R.id.dinheiro);
+    }
 
     public void bemVindoProgresso(){
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Informações pessoais");
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
             if (documentSnapshot != null){
 
@@ -99,8 +72,6 @@ public class TelaProgresso extends AppCompatActivity {
                     showDialog();
                     String prevStarted = "yes";
 
-                    FirebaseFirestore db1 = FirebaseFirestore.getInstance();
-
                     Map<String, Object> usuarios = new HashMap<>();
                     usuarios.put("Data de cadastro", dataCadastro);
                     usuarios.put("Nome", nome);
@@ -109,19 +80,28 @@ public class TelaProgresso extends AppCompatActivity {
                     usuarios.put("Senha", senha);
                     usuarios.put("BooleanModalProgresso", prevStarted);
 
-                    DocumentReference ns = db1.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
-                    ns.set(usuarios);
+                    DocumentReference ns = FirebaseHelper.getFirebaseFirestore()
+                            .collection("Usuarios")
+                            .document("Dados")
+                            .collection(FirebaseHelper.getUIDUsuario())
+                            .document("Informações pessoais");
 
+                    ns.set(usuarios);
                 }
             }
         });
     }
 
     public void setarDias(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Dados de fumo diário");
+
         documentReference.addSnapshotListener((documentSnapshot, error) -> {
+
             if (documentSnapshot != null){
 
                 String dataCadastro = documentSnapshot.getString("Data de cadastro inicial");
@@ -136,18 +116,28 @@ public class TelaProgresso extends AppCompatActivity {
     }
 
     public void calculaDinheiro(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference dr = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
+        DocumentReference dr = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Dados de fumo diário");
+
         dr.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 DocumentSnapshot documentSnapshot = task.getResult();
 
                 if (documentSnapshot.exists()){
                     int valorMacoCigarro = Math.toIntExact((Long) documentSnapshot.getData().get("Preço pago por maço de cigarro"));
-                    int cigarrosFumadosPorDia = Math.toIntExact((Long) documentSnapshot.getData().get("Cigarros por dia"));
 
-                    DocumentReference dR = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário").collection("Total de cigarros fumados").document("Total de cigarros fumados");
+                    DocumentReference dR = FirebaseHelper.getFirebaseFirestore()
+                            .collection("Usuarios")
+                            .document("Dados")
+                            .collection(FirebaseHelper.getUIDUsuario())
+                            .document("Dados de fumo diário")
+                            .collection("Total de cigarros fumados")
+                            .document("Total de cigarros fumados");
+
                     dR.addSnapshotListener((documentSnapshot1, error) -> {
                         try {
                             if (documentSnapshot1 != null){
@@ -160,8 +150,6 @@ public class TelaProgresso extends AppCompatActivity {
                             }
                         }catch (Exception e){
                             Intent vai = new Intent(TelaProgresso.this, TelaInicial.class);
-//                                    ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.transicao_sair, R.anim.mover_direita);
-//                                    ActivityCompat.startActivity(TelaProgresso.this, vai, activityOptionsCompat.toBundle());
                             startActivity(vai);
                             Toast.makeText(TelaProgresso.this, "Você ainda não realizou um cadastro de fumo!", Toast.LENGTH_SHORT).show();
                         }
@@ -172,8 +160,14 @@ public class TelaProgresso extends AppCompatActivity {
     }
 
     public void vidaReduzida( ){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumos").collection("Total").document("Total de fumos");
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Dados de fumos")
+                .collection("Total")
+                .document("Total de fumos");
+
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
@@ -207,8 +201,14 @@ public class TelaProgresso extends AppCompatActivity {
     }
 
     public void qtdCigarrosTotal(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumos").collection("Total").document("Total de fumos");
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Dados de fumos")
+                .collection("Total")
+                .document("Total de fumos");
+
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 
@@ -228,8 +228,6 @@ public class TelaProgresso extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_progresso);
-
-        //LinearLayout Text = dialog.findViewById(R.id.aviso);
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);

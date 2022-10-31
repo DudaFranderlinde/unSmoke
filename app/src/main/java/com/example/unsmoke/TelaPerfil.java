@@ -1,5 +1,6 @@
 package com.example.unsmoke;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -51,14 +56,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TelaPerfil extends AppCompatActivity {
 
-    TextView nomeUsu;
+    TextView nomeUsu, tiposCigarroTextView;
     Button btnSair;
-
-    private CircleImageView fotoUsu;
-    private static final int REQUEST_GALERIA = 100;
-    private String caminhoImagem;
-    private Bitmap imagem;
-
     BottomSheetDialog dialog;
     Dialog dialogMenu;
 
@@ -70,26 +69,58 @@ public class TelaPerfil extends AppCompatActivity {
         getSupportActionBar().hide();
 
         nomeUsu = findViewById(R.id.nomeUsu);
-        fotoUsu = findViewById(R.id.fotoUsu);
         btnSair = findViewById(R.id.btnSair);
-
-        fotoUsu.setOnClickListener(v -> pegarImagemGaleria());
-
-        setarImagemPerfil();
+        tiposCigarroTextView = findViewById(R.id.tiposCigarro);
 
         dialog = new BottomSheetDialog(this);
+        dialogMenu = new Dialog(this);
+        btnSair.setOnClickListener(view -> dialog.show());
         mostrarCard();
 
-        dialogMenu = new Dialog(this);
-
-        btnSair.setOnClickListener(view -> dialog.show());
     }
 
-    private void mostrarCard(){
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Informações pessoais");
+
+        documentReference.addSnapshotListener((documentSnapshot, error) -> {
+            if (documentSnapshot != null){
+                nomeUsu.setText(documentSnapshot.getString("Nome"));
+            }
+        });
+
+        DatabaseReference reference1 = FirebaseHelper.getFirebaseDatabase().getReference()
+                .child("Usuarios")
+                .child(FirebaseHelper.getUIDUsuario())
+                .child("Tipos de fumo");
+
+        reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                tiposCigarroTextView.setText(snapshot.getValue().toString()
+                        .replace("[", "• ")
+                        .replace("]", "")
+                        .replace(",", "\n•"));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void mostrarCard() {
         View view = getLayoutInflater().inflate(R.layout.modal_sair, null, false);
 
         Button naoSair = view.findViewById(R.id.naoSair);
-        naoSair.setOnClickListener((View.OnClickListener) view12 -> {
+        naoSair.setOnClickListener(view12 -> {
             dialog.dismiss();
         });
 
@@ -97,157 +128,15 @@ public class TelaPerfil extends AppCompatActivity {
         simSair.setOnClickListener(view1 -> {
             FirebaseAuth.getInstance().signOut();
             finish();
-            Intent i = new Intent (TelaPerfil.this, TelaLogin.class);
+            Intent i = new Intent(TelaPerfil.this, TelaLogin.class);
             startActivity(i);
         });
 
         dialog.setContentView(view);
     }
 
-    public void verificaPermissaoGaleria(View view){
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                abrirGaleria();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(TelaPerfil.this, "Permissão negada.", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        showDialogPermissao(permissionListener, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE});
-    }
-
-    private void abrirGaleria(){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_GALERIA);
-    }
-
-    private void showDialogPermissao(PermissionListener listener, String[] permissoes){
-        TedPermission.create()
-                .setPermissionListener(listener)
-                .setDeniedTitle("Permissões")
-                .setDeniedMessage("Você negou a permissão para acessar a galeria do dispositivo, deseja permitir?")
-                .setDeniedCloseButtonText("Não")
-                .setGotoSettingButtonText("Sim")
-                .setPermissions(permissoes)
-                .check();
-    }
-
-    private void salvarImagemUsu(){
-        StorageReference reference = FirebaseHelper.getFirebaseStorage().getReference()
-                .child("imagens")
-                .child("Fotos de perfil")
-                .child(FirebaseHelper.getUIDUsuario())
-                .child(FirebaseHelper.getUIDUsuario() + ".jpeg");
-
-        UploadTask uploadTask = reference.putFile(Uri.parse(caminhoImagem));
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK){
-            if (requestCode == REQUEST_GALERIA){
-                Uri localImagemSelecionada = data.getData();
-                caminhoImagem = localImagemSelecionada.toString();
-
-                if (Build.VERSION.SDK_INT > 28){
-                    try {
-                        imagem = MediaStore.Images.Media.getBitmap(getBaseContext().getContentResolver(), localImagemSelecionada);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-                    ImageDecoder.Source source = ImageDecoder.createSource(getBaseContext().getContentResolver(), localImagemSelecionada);
-                    try {
-                        imagem = ImageDecoder.decodeBitmap(source);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                fotoUsu.setImageBitmap(imagem);
-                salvarImagemUsu();
-            }
-        }
-    }
-
-    public void setarImagemPerfil(){
-
-        FirebaseHelper.getFirebaseStorage().getReference()
-                .child("imagens/Fotos de perfil/" + FirebaseHelper.getUIDUsuario() + "/" + FirebaseHelper.getUIDUsuario() + ".jpeg")
-                .getDownloadUrl()
-                .addOnSuccessListener((OnSuccessListener<Uri>) uri -> Picasso.get().load(uri).into(fotoUsu));
-    }
-
     public void voltarParaTelaInicial(View v){
         Intent voltarParaTelaInicial = new Intent(this, TelaInicial.class);
         startActivity(voltarParaTelaInicial);
     }
-
-    private void pegarImagemGaleria(){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(intent, "Escolha uma imagem"), 0);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
-        documentReference.addSnapshotListener((documentSnapshot, error) -> {
-            if (documentSnapshot != null){
-                nomeUsu.setText(documentSnapshot.getString("Nome"));
-            }
-        });
-
-//        setarInfoTelaPerfil();
-    }
-
-//    public void editarInformacoes(View e){
-//        if(editInfo.isChecked()){
-//            tipoFumo.setEnabled(true);
-//            marcaFumo.setEnabled(true);
-//        }else{
-//            tipoFumo.setEnabled(false);
-//            marcaFumo.setEnabled(false);
-//        }
-//    }
-
-//    public void mandarInfoBD(View b){
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-//        String tipoDoFumo = tipoFumo.getText().toString();
-//        String marcaDoFumo = marcaFumo.getText().toString();
-//
-//        Map<String, Object> infoFumo = new HashMap<>();
-//        infoFumo.put("Tipos de fumos utilizados", tipoDoFumo);
-//        infoFumo.put("Marcas de fumos utilizados", marcaDoFumo);
-//
-//        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais").collection("Informações de fumo da tela de perfil").document("Informações");
-//        documentReference.set(infoFumo);
-//    }
-//
-//    public void setarInfoTelaPerfil(){
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        usuarioID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//
-//        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(usuarioID).document("Informações pessoais").collection("Informações de fumo da tela de perfil").document("Informações");
-//        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-//                if (documentSnapshot != null){
-//                    tipoFumo.setText(documentSnapshot.getString("Tipos de fumos utilizados"));
-//                    marcaFumo.setText(documentSnapshot.getString("Marcas de fumos utilizados"));
-//                }
-//            }
-//        });
-//    }
 }

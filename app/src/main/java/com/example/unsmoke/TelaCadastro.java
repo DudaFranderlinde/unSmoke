@@ -101,33 +101,30 @@ public class TelaCadastro extends AppCompatActivity {
 
         Intent irTelaContaCriada = new Intent(this, TelaPadraoUso.class);
 
-        FirebaseHelper.getFirebaseAuth().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+        FirebaseHelper.getFirebaseAuth().createUserWithEmailAndPassword(email, senha).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
 
-                    SalvarDadosUsuario();
+                SalvarDadosUsuario();
 
-                    startActivity(irTelaContaCriada);
-                }else{
-                    String erro;
-                    try {
-                        throw task.getException();
-                    }catch (FirebaseAuthWeakPasswordException e){
-                        erro = "Digite uma senha com no mínimo 6 caracteres!";
-                    }catch (FirebaseAuthUserCollisionException e){
-                        erro = "Esta conta de email já está cadastrada!";
-                    }catch (FirebaseAuthInvalidCredentialsException e){
-                        erro = "Email inválido";
-                    }catch (Exception e){
-                        erro = "Erro ao cadastrar o usuário";
-                    }
-
-                    Snackbar snackbar = Snackbar.make(v,erro,Snackbar.LENGTH_LONG);
-                    snackbar.setBackgroundTint(Color.WHITE);
-                    snackbar.setTextColor(Color.BLACK);
-                    snackbar.show();
+                startActivity(irTelaContaCriada);
+            }else{
+                String erro;
+                try {
+                    throw task.getException();
+                }catch (FirebaseAuthWeakPasswordException e){
+                    erro = "Digite uma senha com no mínimo 6 caracteres!";
+                }catch (FirebaseAuthUserCollisionException e){
+                    erro = "Esta conta de email já está cadastrada!";
+                }catch (FirebaseAuthInvalidCredentialsException e){
+                    erro = "Email inválido";
+                }catch (Exception e){
+                    erro = "Erro ao cadastrar o usuário";
                 }
+
+                Snackbar snackbar = Snackbar.make(v,erro,Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(Color.WHITE);
+                snackbar.setTextColor(Color.BLACK);
+                snackbar.show();
             }
         });
     }
@@ -151,7 +148,12 @@ public class TelaCadastro extends AppCompatActivity {
         usuario.put("BooleanModalProgresso", prevStarted);
         usuario.put("Tem registros de cigarro?", false);
 
-        DocumentReference ns = FirebaseHelper.getFirebaseFirestore().collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Informações pessoais");
+        DocumentReference ns = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Informações pessoais");
+
         ns.set(usuario);
 
         DocumentReference dr = FirebaseHelper.getFirebaseFirestore()
@@ -166,11 +168,8 @@ public class TelaCadastro extends AppCompatActivity {
         dr.set(booleano);
     }
 
-//    public void mostrarSenha(View m) {
-//        if (mostrarSenhaCadastro.isChecked()){
-//            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT);
-//        }else{
-//            senhaCadastro.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        }
-//    }
+    public void voltarTelaLogin(View b){
+        Intent voltarTelaLogin = new Intent(this, TelaLogin.class);
+        startActivity(voltarTelaLogin);
+    }
 }

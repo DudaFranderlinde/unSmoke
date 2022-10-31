@@ -62,9 +62,12 @@ public class TelaInicial extends AppCompatActivity {
     }
 
     public void mostrarBottomSheet(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = FirebaseHelper.getFirebaseFirestore()
+                .collection("Usuarios")
+                .document("Dados")
+                .collection(FirebaseHelper.getUIDUsuario())
+                .document("Dados de fumo diário");
 
-        DocumentReference documentReference = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
         documentReference.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
 

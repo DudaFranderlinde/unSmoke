@@ -47,13 +47,9 @@ public class TelaPadraoUso extends AppCompatActivity {
     public void salvarDadosUsuario(View s){
         Intent irTelaInicial = new Intent(this, TelaInicial.class);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); //Formata a data
-        Date data = new Date(); // Pega a data atual
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Date data = new Date();
         String dataAtual = sdf.format(data);
-
-        int cigarroPorDia = parseInt(cigarroDia.getText().toString());
-        int precoMacoCigarro = parseInt(precoMaco.getText().toString());
-        int tempoFumarCigarro = parseInt(tempoCigarro.getText().toString());
 
         if (cigarroDia.getText().length() == 0){
             cigarroDia.setError("Insira um valor válido");
@@ -61,10 +57,11 @@ public class TelaPadraoUso extends AppCompatActivity {
             precoMaco.setError("Insira um valor válido");
         }else if(tempoCigarro.getText().length() == 0){
             tempoCigarro.setError("Insira um valor válido");
-        }else{
-
+        } else {
             try {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                int cigarroPorDia = parseInt(cigarroDia.getText().toString());
+                int precoMacoCigarro = parseInt(precoMaco.getText().toString());
+                int tempoFumarCigarro = parseInt(tempoCigarro.getText().toString());
 
                 Map<String, Object> usuarios = new HashMap<>();
                 usuarios.put("Cigarros por dia", cigarroPorDia);
@@ -72,16 +69,19 @@ public class TelaPadraoUso extends AppCompatActivity {
                 usuarios.put("Minutos levados para fumar 1 cigarro", tempoFumarCigarro);
                 usuarios.put("Data de cadastro inicial", dataAtual);
 
+                DocumentReference ns = FirebaseHelper.getFirebaseFirestore()
+                        .collection("Usuarios")
+                        .document("Dados")
+                        .collection(FirebaseHelper.getUIDUsuario())
+                        .document("Dados de fumo diário");
 
-                DocumentReference ns = db.collection("Usuarios").document("Dados").collection(FirebaseHelper.getUIDUsuario()).document("Dados de fumo diário");
                 ns.set(usuarios);
 
-            } catch (Exception e){
+                startActivity(irTelaInicial);
+
+            } catch (Exception e) {
                 Toast.makeText(this, "Não foi possível enviar para o banco de dados", Toast.LENGTH_LONG).show();
             }
-
-            startActivity(irTelaInicial);
-
         }
     }
 

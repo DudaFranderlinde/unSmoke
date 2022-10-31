@@ -20,7 +20,7 @@
         android:paddingBottom="0dp"
         android:text="Voltar"
         android:textAllCaps="false"
-        android:textColor="#FEFAE0"
+        android:textColor="#FFFFFF"
         android:textSize="17sp"
         app:cornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,13 +54,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoUsu"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
-        android:onClick="verificaPermissaoGaleria"
-        android:src="@drawable/ic_baseline_person_outline_24"
+        android:src="@drawable/user2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
@@ -105,20 +104,37 @@
         app:layout_constraintStart_toStartOf="@+id/textView17"
         app:layout_constraintTop_toTopOf="@+id/textView17" />
 
-    <TextView
-        android:id="@+id/tiposCigarro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/montserrat"
-        android:hint="• Cigarro eletrônico\n• Cigarro de palha\n• Marijuana\n• Cigarro comun"
-        android:textColor="#0C4C78"
-        android:textColorHint="#0C4C78"
-        android:textSize="18sp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toEndOf="@+id/textView17"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textView17"
-        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+        app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tiposCigarro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:fontFamily="@font/montserrat"
+                android:hint="• Cigarro eletrônico\n• Cigarro de palha\n• Marijuana\n• Cigarro comun"
+                android:textColor="#0C4C78"
+                android:textColorHint="#0C4C78"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,19 +33,19 @@ public class TelaLogin extends AppCompatActivity {
 
         iniciarComponentes();
 
-//        Intent irDireto = new Intent(this, TelaSemRegistro.class);
+//        Intent irDireto = new Intent(this, TelaPadraoUso.class);
 //        startActivity(irDireto);
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        if (FirebaseHelper.getFirebaseAuth().getCurrentUser() != null){
-//            Intent ir = new Intent(this, TelaInicial.class);
-//            startActivity(ir);
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (FirebaseHelper.getFirebaseAuth().getCurrentUser() != null){
+            Intent ir = new Intent(this, TelaInicial.class);
+            startActivity(ir);
+        }
+    }
 
     public void iniciarComponentes(){
         mostrarSenhaLogin = findViewById(R.id.mostrarSenhaLogin);
@@ -59,24 +59,21 @@ public class TelaLogin extends AppCompatActivity {
         String email = emailLogin.getText().toString();
         String senha = senhaLogin.getText().toString();
 
-        FirebaseHelper.getFirebaseAuth().signInWithEmailAndPassword(email, senha).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    startActivity(irTelaInicial);
-                }else {
-                    String erro;
+        FirebaseHelper.getFirebaseAuth().signInWithEmailAndPassword(email, senha).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                startActivity(irTelaInicial);
+            }else {
+                String erro;
 
-                    try {
-                        throw task.getException();
-                    }catch (Exception e){
-                        erro = "Erro ao logar o usuário";
-                    }
-                    Snackbar snackbar = Snackbar.make(a,erro,Snackbar.LENGTH_LONG);
-                    snackbar.setBackgroundTint(Color.WHITE);
-                    snackbar.setTextColor(Color.BLACK);
-                    snackbar.show();
+                try {
+                    throw task.getException();
+                }catch (Exception e){
+                    erro = "Erro ao logar o usuário";
                 }
+                Snackbar snackbar = Snackbar.make(a,erro,Snackbar.LENGTH_LONG);
+                snackbar.setBackgroundTint(Color.WHITE);
+                snackbar.setTextColor(Color.BLACK);
+                snackbar.show();
             }
         });
     }
@@ -103,22 +100,12 @@ public class TelaLogin extends AppCompatActivity {
         if (email.isEmpty()){
             emailLogin.setError("Você precisa inserir o seu email para recuperar a sua senha");
         }else{
-            enviarEmail(email);
+            FirebaseHelper.getFirebaseAuth().sendPasswordResetEmail(email).addOnSuccessListener(unused ->
+                    Toast.makeText(getBaseContext(), "Te enviamos um email com um link para redefinição da senha", Toast.LENGTH_LONG).show()
+            ).addOnFailureListener(e ->
+                    Toast.makeText(getBaseContext(), "Erro ao enviar o email", Toast.LENGTH_LONG).show()
+            );
         }
-    }
-
-    private void enviarEmail(String email){
-        FirebaseHelper.getFirebaseAuth().sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getBaseContext(), "Enviamos uma mensagem para o seu email com um link para redefinição da senha", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getBaseContext(), "Erro ao enviar o email", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 }

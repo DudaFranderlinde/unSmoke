@@ -20,8 +20,11 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -37,17 +40,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TelaRegistroFumo extends AppCompatActivity {
 
     private final String[] lsTiposFumo = new String []{"Opções", "Cigarro industrializado", "Narguilé", "Cachimbo", "Charuto", "Cigarro de palha", "Cigarrilha", "Fumo de corda", "Folha de tabaco", "Cigarro de cannabis"};
     private Spinner spTiposFumo;
-
-    EditText duracaoFumo, dataFumo;
-
-    int registraCigarro;
-    ArrayList<String> tiposFumo = new ArrayList<String>();
+    EditText duracaoFumo;
+    ArrayList<String> tiposFumo = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class TelaRegistroFumo extends AppCompatActivity {
         mandarBDCigarFumInicialMes();
         mandarBDCigarFumInicialTotal1();
         mandarBDCigarFumInicialTotal2();
-//        mandaTipoCigarro();
+        mandaTipoCigarro();
     }
 
     public void mandarBDCigarrosFumadosInicialData(){
@@ -497,19 +498,50 @@ public class TelaRegistroFumo extends AppCompatActivity {
         startActivity(voltarParaTelaInicial);
     }
 
-    public void mandaTipoCigarro(View d){
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        System.out.println(tiposFumo);
+
+        if (tiposFumo.isEmpty()){
+
+            DatabaseReference reference1 = FirebaseHelper.getFirebaseDatabase().getReference()
+                    .child("Usuarios")
+                    .child(FirebaseHelper.getUIDUsuario())
+                    .child("Tipos de fumo");
+
+            reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot snap : snapshot.getChildren()){
+                        tiposFumo.add(snap.getValue().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
+    public void mandaTipoCigarro(){
         String tipo = spTiposFumo.getSelectedItem().toString();
-        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference()
-                .child("Usuarios")
-                .child(FirebaseHelper.getUIDUsuario())
-                .child("Tipos de fumo");
 
         if (tiposFumo.contains(tipo)){
-            System.out.println(tiposFumo);
+            System.out.println(tipo);
         } else {
-            System.out.println(tiposFumo);
             tiposFumo.add(tipo);
-            reference1.setValue(tipo);
+            System.out.println(tiposFumo);
+
+            DatabaseReference reference1 = FirebaseHelper.getFirebaseDatabase().getReference()
+                    .child("Usuarios")
+                    .child(FirebaseHelper.getUIDUsuario())
+                    .child("Tipos de fumo");
+
+            reference1.setValue(tiposFumo);
         }
     }
 }
